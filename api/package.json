@@ -1,0 +1,32 @@
+{
+  "name": "lifequest-api",
+  "version": "1.0.0",
+  "description": "LifeQuest MCP API - Life Gamification RPG Backend",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "npx wrangler dev",
+    "build": "tsc",
+    "deploy": "npx wrangler deploy",
+    "test": "vitest",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cloudflare/workers-types": "^4.20240620.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^1.6.0",
+    "wrangler": "^4.20.5"
+  },
+  "keywords": [
+    "lifequest",
+    "gamification",
+    "mcp",
+    "cloudflare-workers",
+    "habit-tracker",
+    "rpg"
+  ],
+  "author": "Brent + Nexus Claude",
+  "license": "MIT"
+}

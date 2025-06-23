@@ -1,0 +1,11 @@
+name = "lifequest-api"
+main = "src/index.ts"
+compatibility_date = "2024-06-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "lifequest"
+database_id = "0f6dc70c-0606-4f4f-be3b-a63310e21e03"
+
+[vars]
+ENVIRONMENT = "development"
