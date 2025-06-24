@@ -1,0 +1,90 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3f4qn2hxfk8m"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_8q2xo"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_8q2xo")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.2, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -200.0
+offset_right = 150.0
+offset_bottom = 200.0
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "🎮 LifeQuest ⚔️"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Epic Life Adventure"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Connecting to API..."
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TestConnectionButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Test API Connection"
+
+[node name="GenerateQuestButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "🎲 Get Random Quest"
+disabled = true
+
+[node name="CompleteQuestButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "✅ Complete Quest"
+disabled = true
+
+[node name="GetProfileButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "👤 Get Profile"
+disabled = true
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OutputLabel" type="RichTextLabel" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[color=gray]API responses will appear here...[/color]"
+fit_content = true
+
+[connection signal="pressed" from="VBoxContainer/TestConnectionButton" to="." method="_on_test_connection_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/GenerateQuestButton" to="." method="_on_generate_quest_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/CompleteQuestButton" to="." method="_on_complete_quest_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/GetProfileButton" to="." method="_on_get_profile_button_pressed"]
