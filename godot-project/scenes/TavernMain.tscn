@@ -1,0 +1,223 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqrf7q0ttrvki"]
+
+[ext_resource type="Script" uid="uid://b0r3oddnlm0jd" path="res://scripts/TavernMain.gd" id="1_hu67j"]
+
+[node name="TavernMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -320.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hu67j")
+
+[node name="MainScroll" type="ScrollContainer" parent="."]
+custom_minimum_size = Vector2(0, 940)
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 25.0
+offset_bottom = 25.0
+
+[node name="TavernContainer" type="PanelContainer" parent="MainScroll"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+
+[node name="MainVBox" type="VBoxContainer" parent="MainScroll/TavernContainer"]
+layout_mode = 2
+
+[node name="HeaderSection" type="VBoxContainer" parent="MainScroll/TavernContainer/MainVBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/HeaderSection"]
+layout_mode = 2
+text = "The Seeking Quill Tavern"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/HeaderSection"]
+layout_mode = 2
+text = "Where Life Adventures Begin"
+horizontal_alignment = 1
+
+[node name="VersionLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/HeaderSection"]
+layout_mode = 2
+text = "v0.1.0 - Alpha"
+horizontal_alignment = 1
+
+[node name="CharacterStatsPanel" type="PanelContainer" parent="MainScroll/TavernContainer/MainVBox"]
+layout_mode = 2
+
+[node name="StatsVBox" type="VBoxContainer" parent="MainScroll/TavernContainer/MainVBox/CharacterStatsPanel"]
+layout_mode = 2
+
+[node name="LevelHBox" type="HBoxContainer" parent="MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox"]
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/LevelHBox"]
+layout_mode = 2
+text = "Level:"
+
+[node name="LevelValueLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/LevelHBox"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "1"
+horizontal_alignment = 2
+
+[node name="XPHBox" type="HBoxContainer" parent="MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox"]
+layout_mode = 2
+
+[node name="XPLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/XPHBox"]
+layout_mode = 2
+text = "Total XP:"
+
+[node name="XPValueLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/XPHBox"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "0"
+horizontal_alignment = 2
+
+[node name="XPProgressBar" type="ProgressBar" parent="MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox"]
+layout_mode = 2
+
+[node name="DorinSection" type="PanelContainer" parent="MainScroll/TavernContainer/MainVBox"]
+layout_mode = 2
+
+[node name="DorinVBox" type="VBoxContainer" parent="MainScroll/TavernContainer/MainVBox/DorinSection"]
+layout_mode = 2
+
+[node name="DorinNameLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/DorinSection/DorinVBox"]
+layout_mode = 2
+text = "Dorin, Tavern Keeper"
+
+[node name="DorinMessageLabel" type="RichTextLabel" parent="MainScroll/TavernContainer/MainVBox/DorinSection/DorinVBox"]
+layout_mode = 2
+text = "Welcome to the Seeking Quill Tavern, brave adventurer! I am Dorin, your humble tavern keeper. Are you ready to embark on quests that will transform your life into an epic adventure?"
+fit_content = true
+
+[node name="QuestBoardSection" type="VBoxContainer" parent="MainScroll/TavernContainer/MainVBox"]
+layout_mode = 2
+
+[node name="QuestBoardTitle" type="Label" parent="MainScroll/TavernContainer/MainVBox/QuestBoardSection"]
+layout_mode = 2
+text = "Quest Board"
+horizontal_alignment = 1
+
+[node name="GenerateQuestButton" type="Button" parent="MainScroll/TavernContainer/MainVBox/QuestBoardSection"]
+layout_mode = 2
+text = "Generate New Quest"
+
+[node name="ActiveQuestsContainer" type="VBoxContainer" parent="MainScroll/TavernContainer/MainVBox/QuestBoardSection"]
+layout_mode = 2
+
+[node name="NoQuestsLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/QuestBoardSection/ActiveQuestsContainer"]
+layout_mode = 2
+text = "No active quests. Generate your first adventure above!"
+horizontal_alignment = 1
+
+[node name="MaslowSection" type="PanelContainer" parent="MainScroll/TavernContainer/MainVBox"]
+layout_mode = 2
+
+[node name="MaslowVBox" type="VBoxContainer" parent="MainScroll/TavernContainer/MainVBox/MaslowSection"]
+layout_mode = 2
+
+[node name="MaslowTitle" type="Label" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox"]
+layout_mode = 2
+text = "Maslow's Progression"
+horizontal_alignment = 1
+
+[node name="PhysiologicalTier" type="HBoxContainer" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox"]
+layout_mode = 2
+
+[node name="PhysioLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox/PhysiologicalTier"]
+layout_mode = 2
+text = "Physiological"
+
+[node name="PhysioStatus" type="Label" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox/PhysiologicalTier"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "UNLOCKED"
+horizontal_alignment = 2
+
+[node name="SafetyTier" type="HBoxContainer" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox"]
+layout_mode = 2
+
+[node name="SafetyLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox/SafetyTier"]
+layout_mode = 2
+text = "Safety & Security"
+
+[node name="SafetyStatus" type="Label" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox/SafetyTier"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Locked (0/10)"
+horizontal_alignment = 2
+
+[node name="LoveTier" type="HBoxContainer" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox"]
+layout_mode = 2
+
+[node name="LoveLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox/LoveTier"]
+layout_mode = 2
+text = "Love & Belonging"
+
+[node name="LoveStatus" type="Label" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox/LoveTier"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Locked (P:0/5, S:0/10)"
+horizontal_alignment = 2
+
+[node name="EsteemTier" type="HBoxContainer" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox"]
+layout_mode = 2
+
+[node name="EsteemLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox/EsteemTier"]
+layout_mode = 2
+text = "Esteem"
+
+[node name="EsteemStatus" type="Label" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox/EsteemTier"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Locked"
+horizontal_alignment = 2
+
+[node name="SelfActualizationTier" type="HBoxContainer" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox"]
+layout_mode = 2
+
+[node name="SelfActLabel" type="Label" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox/SelfActualizationTier"]
+layout_mode = 2
+text = "Self-Actualization"
+
+[node name="SelfActStatus" type="Label" parent="MainScroll/TavernContainer/MainVBox/MaslowSection/MaslowVBox/SelfActualizationTier"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Locked"
+horizontal_alignment = 2
+
+[node name="FeedbackSection" type="PanelContainer" parent="MainScroll/TavernContainer/MainVBox"]
+layout_mode = 2
+
+[node name="FeedbackVBox" type="VBoxContainer" parent="MainScroll/TavernContainer/MainVBox/FeedbackSection"]
+layout_mode = 2
+
+[node name="FeedbackTitle" type="Label" parent="MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox"]
+layout_mode = 2
+text = "Help Make LifeQuest Better!"
+horizontal_alignment = 1
+
+[node name="FeedbackDescription" type="Label" parent="MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox"]
+layout_mode = 2
+text = "You're testing an early alpha version. Your feedback shapes the future of LifeQuest!"
+horizontal_alignment = 1
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox"]
+layout_mode = 2
+
+[node name="FeedbackFormButton" type="Button" parent="MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox/ButtonsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Feedback Form"
+
+[node name="DiscordButton" type="Button" parent="MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox/ButtonsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join Discord"

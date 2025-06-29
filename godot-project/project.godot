@@ -12,7 +12,7 @@ config_version=5
 
 config/name="LifeQuest"
 config/description="Life Gamification RPG - Transform daily tasks into epic quests"
-run/main_scene="res://scenes/Main.tscn"
+run/main_scene="uid://cqrf7q0ttrvki"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
@@ -24,7 +24,7 @@ QuestManager="*res://scripts/QuestManager.gd"
 [display]
 
 window/size/viewport_width=720
-window/size/viewport_height=1280
+window/size/viewport_height=960
 window/size/mode=2
 window/size/resizable=false
 window/stretch/mode="canvas_items"
@@ -33,5 +33,5 @@ window/handheld/orientation=1
 
 [rendering]
 
-renderer/rendering_method="mobile"
 textures/canvas_textures/default_texture_filter=2
+renderer/rendering_method="mobile"

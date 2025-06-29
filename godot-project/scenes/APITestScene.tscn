@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://b3f4qn2hxfk8m"]
+[gd_scene load_steps=2 format=3 uid="uid://xqje326rnl0"]
 
-[ext_resource type="Script" uid="uid://cuc4587ajpwbi" path="res://scripts/Main.gd" id="1_8q2xo"]
+[ext_resource type="Script" uid="uid://cuc4587ajpwbi" path="res://scripts/Main.gd" id="1_401bf"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -9,7 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_8q2xo")
+script = ExtResource("1_401bf")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1

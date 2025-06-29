@@ -129,8 +129,11 @@ func _on_api_error(error_message: String):
 	print("❌ API Error in QuestManager: ", error_message)
 	
 	# Handle specific error cases
-	if "No quests available" in error_message:
+	if "No quests available" in error_message or "500" in error_message or "all on cooldown" in error_message:
 		emit_signal("no_quests_available")
+	else:
+		# For other errors, just log them
+		push_error("QuestManager API Error: " + error_message)
 
 # Debug function to print current state
 func debug_print_state():

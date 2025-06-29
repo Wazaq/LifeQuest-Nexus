@@ -147,7 +147,7 @@ func _test_api_connection():
 
 # Add output to the scrolling text area
 func _add_output(text: String):
-	var timestamp = Time.get_datetime_string_from_system().split(" ")[1].substr(0, 8)
+	var timestamp = Time.get_datetime_string_from_system()
 	output_label.text += "\n[color=gray][" + timestamp + "][/color] " + text + "\n"
 	
 	# Auto-scroll to bottom

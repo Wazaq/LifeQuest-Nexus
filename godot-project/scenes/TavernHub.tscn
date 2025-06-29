@@ -1,0 +1,107 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1jsl3b8f5uwt"]
+
+[sub_resource type="Theme" id="Theme_2x82h"]
+
+[node name="TavernHub" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_2x82h")
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HeaderArea" type="HBoxContainer" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="PlayerNameLabel" type="Label" parent="MainContainer/HeaderArea"]
+layout_mode = 2
+text = "Parker"
+
+[node name="XPLabel" type="Label" parent="MainContainer/HeaderArea"]
+layout_mode = 2
+text = "XP: 145"
+
+[node name="QuestCountLabel" type="Label" parent="MainContainer/HeaderArea"]
+layout_mode = 2
+text = "Quests: 3/5"
+
+[node name="HeaderMargin" type="MarginContainer" parent="MainContainer/HeaderArea"]
+layout_mode = 2
+
+[node name="ContentArea" type="Control" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="QuestCollection" type="VBoxContainer" parent="MainContainer/ContentArea"]
+layout_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="QuestTitle" type="Label" parent="MainContainer/ContentArea/QuestCollection"]
+layout_mode = 2
+text = "Active Quests"
+
+[node name="Quest1" type="Panel" parent="MainContainer/ContentArea/QuestCollection"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="QuestLabel" type="Label" parent="MainContainer/ContentArea/QuestCollection/Quest1"]
+layout_mode = 0
+text = "The Hydration Ritual (+25 XP)"
+
+[node name="CompleteButton" type="Button" parent="MainContainer/ContentArea/QuestCollection/Quest1"]
+layout_mode = 0
+text = "Complete"
+
+[node name="Quest2" type="Panel" parent="MainContainer/ContentArea/QuestCollection"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="QuestLabel2" type="Label" parent="MainContainer/ContentArea/QuestCollection/Quest2"]
+layout_mode = 0
+text = "Morning Movement (+35 XP)"
+
+[node name="CompleteButton2" type="Button" parent="MainContainer/ContentArea/QuestCollection/Quest2"]
+layout_mode = 0
+text = "Complete"
+
+[node name="GetQuestButton" type="Button" parent="MainContainer/ContentArea/QuestCollection"]
+layout_mode = 2
+text = "Get New Quest"
+
+[node name="NavigationArea" type="HBoxContainer" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="TavernTab" type="Button" parent="MainContainer/NavigationArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Tavern"
+
+[node name="QuestsTab" type="Button" parent="MainContainer/NavigationArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Quests"
+
+[node name="CharacterTab" type="Button" parent="MainContainer/NavigationArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Character"
+
+[node name="SettingsTab" type="Button" parent="MainContainer/NavigationArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Settings"
