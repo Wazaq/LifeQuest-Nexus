@@ -1,0 +1,120 @@
+{
+  "category": "foundation_realm",
+  "theme": "Health, Energy, and Survival Basics",
+  "quests": [
+    {
+      "id": "hydration_hero",
+      "title": "Hydration Hero",
+      "description": "Drink 8 glasses of water today to keep your body functioning optimally. Your energy and focus depend on proper hydration.",
+      "xp_reward": 20,
+      "difficulty": "easy",
+      "tags": ["health", "daily", "indoor", "energy"],
+      "duration": "Throughout the day",
+      "objectives": [
+        "Track water intake throughout the day",
+        "Aim for 8 glasses (64oz) total", 
+        "Notice how hydration affects your energy"
+      ],
+      "tips": [
+        "Keep a water bottle visible as a reminder",
+        "Add lemon or cucumber for variety",
+        "Set hourly reminders if needed"
+      ]
+    },
+    {
+      "id": "fresh_air_wanderer",
+      "title": "Fresh Air Wanderer", 
+      "description": "Take a 20-minute walk outside to boost your energy and clear your mind. Nature is the best medicine.",
+      "xp_reward": 25,
+      "difficulty": "easy",
+      "tags": ["physical", "outdoor", "energy", "nature"],
+      "duration": "20 minutes",
+      "objectives": [
+        "Step outside for at least 20 minutes",
+        "Walk at a comfortable pace",
+        "Pay attention to your surroundings"
+      ],
+      "tips": [
+        "No specific route needed - just move",
+        "Fresh air boosts mood and creativity",
+        "Perfect break from screen time"
+      ]
+    },
+    {
+      "id": "nutritional_champion",
+      "title": "Nutritional Champion",
+      "description": "Prepare a healthy meal with at least 3 different vegetables. Fuel your body like the hero you are.",
+      "xp_reward": 30,
+      "difficulty": "medium",
+      "tags": ["nutrition", "cooking", "health", "creativity"],
+      "duration": "30-45 minutes",
+      "objectives": [
+        "Choose 3 different vegetables",
+        "Prepare them in a way you enjoy",
+        "Create a balanced, colorful meal"
+      ],
+      "tips": [
+        "Frozen vegetables count too!",
+        "Try new spices or cooking methods",
+        "Make extra for tomorrow's lunch"
+      ]
+    },
+    {
+      "id": "sleep_sanctuary_keeper",
+      "title": "Sleep Sanctuary Keeper",
+      "description": "Prepare your bedroom for optimal rest and aim for 7+ hours of quality sleep. Recovery is a hero's secret weapon.",
+      "xp_reward": 35,
+      "difficulty": "medium", 
+      "tags": ["sleep", "health", "evening", "recovery"],
+      "duration": "Evening prep + full night",
+      "objectives": [
+        "Set up bedroom for optimal sleep",
+        "No screens 30 minutes before bed",
+        "Aim for 7+ hours of sleep"
+      ],
+      "tips": [
+        "Cool, dark rooms promote better sleep",
+        "Try reading or meditation before bed",
+        "Consistent sleep schedule works wonders"
+      ]
+    },
+    {
+      "id": "flexibility_guardian",
+      "title": "Flexibility Guardian",
+      "description": "Do 10 minutes of stretching or yoga to improve flexibility and reduce tension. Your body will thank you.",
+      "xp_reward": 15,
+      "difficulty": "trivial",
+      "tags": ["physical", "flexibility", "quick", "stress_relief"],
+      "duration": "10 minutes",
+      "objectives": [
+        "Stretch major muscle groups",
+        "Hold each stretch for 15-30 seconds",
+        "Focus on breathing and relaxation"
+      ],
+      "tips": [
+        "YouTube has great 10-minute routines",
+        "Even simple stretches make a difference",
+        "Great for morning or evening routines"
+      ]
+    },
+    {
+      "id": "energy_alchemist",
+      "title": "Energy Alchemist",
+      "description": "Take a 10-minute power nap or do energizing breathing exercises to recharge your vitality.",
+      "xp_reward": 20,
+      "difficulty": "easy",
+      "tags": ["energy", "rest", "breathing", "quick"],
+      "duration": "10-15 minutes",
+      "objectives": [
+        "Find a quiet, comfortable space",
+        "Either nap for 10-15 minutes or do breathing exercises",
+        "Notice the energy boost afterward"
+      ],
+      "tips": [
+        "Set an alarm for short naps",
+        "4-7-8 breathing is great for energy",
+        "Even quiet rest helps if you can't nap"
+      ]
+    }
+  ]
+}

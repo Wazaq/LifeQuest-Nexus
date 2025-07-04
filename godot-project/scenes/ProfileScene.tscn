@@ -1,0 +1,182 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2aiydih70u7q"]
+
+[ext_resource type="Script" uid="uid://br1sum30ea3c6" path="res://scripts/ProfileMain.gd" id="1_nilhg"]
+
+[node name="ProfileMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nilhg")
+
+[node name="MainScroll" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProfileContainer" type="PanelContainer" parent="MainScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MainVBox" type="VBoxContainer" parent="MainScroll/ProfileContainer"]
+layout_mode = 2
+
+[node name="HeaderSection" type="VBoxContainer" parent="MainScroll/ProfileContainer/MainVBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MainScroll/ProfileContainer/MainVBox/HeaderSection"]
+layout_mode = 2
+text = "Character Profile"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="MainScroll/ProfileContainer/MainVBox/HeaderSection"]
+layout_mode = 2
+text = "Your Adventure Progress"
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="MainScroll/ProfileContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="CharacterStatsPanel" type="PanelContainer" parent="MainScroll/ProfileContainer/MainVBox"]
+layout_mode = 2
+
+[node name="StatsVBox" type="VBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/CharacterStatsPanel"]
+layout_mode = 2
+
+[node name="StatsTitle" type="Label" parent="MainScroll/ProfileContainer/MainVBox/CharacterStatsPanel/StatsVBox"]
+layout_mode = 2
+text = "Character Stats"
+horizontal_alignment = 1
+
+[node name="LevelHBox" type="HBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/CharacterStatsPanel/StatsVBox"]
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="MainScroll/ProfileContainer/MainVBox/CharacterStatsPanel/StatsVBox/LevelHBox"]
+layout_mode = 2
+text = "Level:"
+
+[node name="LevelValueLabel" type="Label" parent="MainScroll/ProfileContainer/MainVBox/CharacterStatsPanel/StatsVBox/LevelHBox"]
+layout_mode = 2
+text = "1"
+
+[node name="XPHBox" type="HBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/CharacterStatsPanel/StatsVBox"]
+layout_mode = 2
+
+[node name="XPLabel" type="Label" parent="MainScroll/ProfileContainer/MainVBox/CharacterStatsPanel/StatsVBox/XPHBox"]
+layout_mode = 2
+text = "Experience:"
+
+[node name="XPValueLabel" type="Label" parent="MainScroll/ProfileContainer/MainVBox/CharacterStatsPanel/StatsVBox/XPHBox"]
+layout_mode = 2
+text = "0"
+
+[node name="XPProgressBar" type="ProgressBar" parent="MainScroll/ProfileContainer/MainVBox/CharacterStatsPanel/StatsVBox"]
+layout_mode = 2
+
+[node name="Spacer2" type="Control" parent="MainScroll/ProfileContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="UserSessionPanel" type="PanelContainer" parent="MainScroll/ProfileContainer/MainVBox"]
+layout_mode = 2
+
+[node name="UserVBox" type="VBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel"]
+layout_mode = 2
+
+[node name="UserTitle" type="Label" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox"]
+layout_mode = 2
+text = "User Session"
+horizontal_alignment = 1
+
+[node name="UserIdHBox" type="HBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox"]
+layout_mode = 2
+
+[node name="UserIdLabel" type="Label" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox/UserIdHBox"]
+layout_mode = 2
+text = "User ID:"
+
+[node name="UserIdValueLabel" type="Label" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox/UserIdHBox"]
+layout_mode = 2
+text = "Loading..."
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox"]
+layout_mode = 2
+
+[node name="NewUserButton" type="Button" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox/ButtonsHBox"]
+layout_mode = 2
+text = "Create New User"
+
+[node name="RefreshProfileButton" type="Button" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox/ButtonsHBox"]
+layout_mode = 2
+text = "Refresh Profile"
+
+[node name="Spacer3" type="Control" parent="MainScroll/ProfileContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="MaslowProgressPanel" type="PanelContainer" parent="MainScroll/ProfileContainer/MainVBox"]
+layout_mode = 2
+
+[node name="MaslowVBox" type="VBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/MaslowProgressPanel"]
+layout_mode = 2
+
+[node name="MaslowTitle" type="Label" parent="MainScroll/ProfileContainer/MainVBox/MaslowProgressPanel/MaslowVBox"]
+layout_mode = 2
+text = "Maslow Tier Progress"
+horizontal_alignment = 1
+
+[node name="PhysiologicalTier" type="HBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/MaslowProgressPanel/MaslowVBox"]
+layout_mode = 2
+
+[node name="PhysioLabel" type="Label" parent="MainScroll/ProfileContainer/MainVBox/MaslowProgressPanel/MaslowVBox/PhysiologicalTier"]
+layout_mode = 2
+text = "Physiological:"
+
+[node name="PhysioStatus" type="Label" parent="MainScroll/ProfileContainer/MainVBox/MaslowProgressPanel/MaslowVBox/PhysiologicalTier"]
+layout_mode = 2
+text = "Unlocked (0 completed)"
+
+[node name="SafetyTier" type="HBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/MaslowProgressPanel/MaslowVBox"]
+layout_mode = 2
+
+[node name="SafetyLabel" type="Label" parent="MainScroll/ProfileContainer/MainVBox/MaslowProgressPanel/MaslowVBox/SafetyTier"]
+layout_mode = 2
+text = "Safety:"
+
+[node name="SafetyStatus" type="Label" parent="MainScroll/ProfileContainer/MainVBox/MaslowProgressPanel/MaslowVBox/SafetyTier"]
+layout_mode = 2
+text = "Locked"
+
+[node name="Spacer4" type="Control" parent="MainScroll/ProfileContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="QuestHistoryPanel" type="PanelContainer" parent="MainScroll/ProfileContainer/MainVBox"]
+layout_mode = 2
+
+[node name="HistoryVBox" type="VBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/QuestHistoryPanel"]
+layout_mode = 2
+
+[node name="HistoryTitle" type="Label" parent="MainScroll/ProfileContainer/MainVBox/QuestHistoryPanel/HistoryVBox"]
+layout_mode = 2
+text = "Recent Quest History"
+horizontal_alignment = 1
+
+[node name="HistoryContainer" type="VBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/QuestHistoryPanel/HistoryVBox"]
+layout_mode = 2
+
+[node name="NoHistoryLabel" type="Label" parent="MainScroll/ProfileContainer/MainVBox/QuestHistoryPanel/HistoryVBox/HistoryContainer"]
+layout_mode = 2
+text = "No completed quests yet. Start your adventure!"
+horizontal_alignment = 1
+
+[node name="BackToTavernButton" type="Button" parent="MainScroll/ProfileContainer/MainVBox"]
+layout_mode = 2
+text = "Back to Tavern"

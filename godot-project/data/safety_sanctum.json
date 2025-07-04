@@ -1,0 +1,120 @@
+{
+  "category": "safety_sanctum", 
+  "theme": "Organization, Security, and Stability",
+  "quests": [
+    {
+      "id": "workspace_sentinel",
+      "title": "Workspace Sentinel",
+      "description": "Organize your workspace for 15 minutes to create a productive sanctuary. A clear space leads to a clear mind.",
+      "xp_reward": 20,
+      "difficulty": "easy",
+      "tags": ["organization", "productivity", "quick", "workspace"],
+      "duration": "15 minutes",
+      "objectives": [
+        "Clear clutter from your main work area",
+        "Organize tools and supplies",
+        "Create a system that makes sense to you"
+      ],
+      "tips": [
+        "Start with just your desk surface",
+        "Everything should have a home",
+        "Keep frequently used items within reach"
+      ]
+    },
+    {
+      "id": "financial_guardian",
+      "title": "Financial Guardian", 
+      "description": "Review and update your budget to protect your financial future. Knowledge is power, especially with money.",
+      "xp_reward": 40,
+      "difficulty": "medium",
+      "tags": ["finance", "planning", "security", "budgeting"],
+      "duration": "30-45 minutes",
+      "objectives": [
+        "Review last week's spending",
+        "Check budget categories for accuracy",
+        "Plan for upcoming expenses"
+      ],
+      "tips": [
+        "Small regular reviews beat huge overhauls",
+        "Use whatever budgeting tool works for you",
+        "Focus on trends, not perfection"
+      ]
+    },
+    {
+      "id": "digital_fortress_keeper",
+      "title": "Digital Fortress Keeper",
+      "description": "Back up important files and update security measures. Protect your digital realm from chaos.",
+      "xp_reward": 30,
+      "difficulty": "medium",
+      "tags": ["digital", "security", "backup", "protection"],
+      "duration": "20-30 minutes", 
+      "objectives": [
+        "Back up important files to cloud or external drive",
+        "Check that passwords are secure",
+        "Update any outdated software"
+      ],
+      "tips": [
+        "Automate backups when possible",
+        "Password managers are your friend",
+        "Don't postpone critical updates"
+      ]
+    },
+    {
+      "id": "tomorrow_navigator",
+      "title": "Tomorrow's Navigator",
+      "description": "Plan tomorrow's schedule and prepare for upcoming tasks. Future you will be grateful for the preparation.",
+      "xp_reward": 25,
+      "difficulty": "easy",
+      "tags": ["planning", "organization", "evening", "preparation"],
+      "duration": "15-20 minutes",
+      "objectives": [
+        "Review tomorrow's calendar",
+        "Prepare materials needed for meetings/tasks",
+        "Set 1-3 priority goals for the day"
+      ],
+      "tips": [
+        "Include buffer time between activities", 
+        "Prepare clothes and materials the night before",
+        "Start with your most important task"
+      ]
+    },
+    {
+      "id": "declutter_champion", 
+      "title": "Declutter Champion",
+      "description": "Clear out 5 items you no longer need. Simplicity creates space for what matters most.",
+      "xp_reward": 15,
+      "difficulty": "trivial",
+      "tags": ["declutter", "organization", "quick", "simplicity"],
+      "duration": "10-15 minutes",
+      "objectives": [
+        "Find 5 items you no longer use",
+        "Decide: donate, recycle, or trash",
+        "Actually remove them from your space"
+      ],
+      "tips": [
+        "Start with obvious clutter",
+        "The 'one year rule' - haven't used it? Let it go",
+        "Someone else might love what you don't need"
+      ]
+    },
+    {
+      "id": "emergency_preparedness_scout",
+      "title": "Emergency Preparedness Scout",
+      "description": "Check your emergency supplies and safety measures. A prepared guardian sleeps peacefully.",
+      "xp_reward": 35,
+      "difficulty": "medium",
+      "tags": ["emergency", "preparation", "safety", "planning"],
+      "duration": "25-35 minutes",
+      "objectives": [
+        "Check emergency kit supplies",
+        "Review emergency contact information",
+        "Test smoke detector batteries if needed"
+      ],
+      "tips": [
+        "Start with basics: water, flashlight, batteries",
+        "Keep emergency contacts updated",
+        "Peace of mind is worth the effort"
+      ]
+    }
+  ]
+}

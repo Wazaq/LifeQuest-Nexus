@@ -93,13 +93,12 @@ func create_new_user():
 	current_user_id = generate_unique_user_id()
 	print("ð Generated new user ID: ", current_user_id)
 	
-	# TEMPORARY: Skip API user creation (backend doesn't support it yet)
-	print("â ï¸ TEMP: Using existing backend user system")
-	save_user_session()
-	
-	# Auto-fetch profile to initialize user
-	await get_tree().create_timer(1.0).timeout
-	get_user_profile()
+	# Create user via API
+	var user_data = {
+		"user_id": current_user_id,
+		"username": "Player_" + current_user_id.substr(0, 8)
+	}
+	_make_request("/api/user/create", HTTPClient.METHOD_POST, user_data)
 
 func generate_unique_user_id() -> String:
 	"""Generate cryptographically unique user ID"""
@@ -125,39 +124,10 @@ func test_connection():
 # Generate a random quest using our smart algorithm
 func generate_quest():
 	if current_user_id == "":
-		print("No user session - cannot generate quest")
+		print("â No user session - cannot generate quest")
 		return
-	print("Generating random quest for user: ", current_user_id)
+	print("ð² Generating random quest for user: ", current_user_id)
 	_make_request("/api/quests/generate", HTTPClient.METHOD_POST)
-
-# Enhanced quest generation with difficulty preferences
-func generate_quest_with_difficulty(recommended_difficulties: Array, preferred_category: QuestManager.QuestCategory):
-	if current_user_id == "":
-		print("No user session - cannot generate quest")
-		return
-	
-	var difficulty_strings = []
-	for diff in recommended_difficulties:
-		difficulty_strings.append(get_difficulty_string_from_enum(diff))
-	
-	var request_data = {
-		"user_level": QuestManager.get_user_stats()["level"],
-		"preferred_difficulties": difficulty_strings,
-		"preferred_category": QuestManager.CATEGORY_MAPPING[preferred_category]
-	}
-	
-	print("ð¯ Generating level-appropriate quest for user: ", current_user_id)
-	print("  Preferred difficulties: ", difficulty_strings)
-	print("  Preferred category: ", QuestManager.CATEGORY_MAPPING[preferred_category])
-	
-	_make_request("/api/quests/generate", HTTPClient.METHOD_POST, request_data)
-
-# Helper function to convert difficulty enum to string
-func get_difficulty_string_from_enum(difficulty_enum: QuestManager.QuestDifficulty) -> String:
-	for key in QuestManager.DIFFICULTY_MAPPING:
-		if QuestManager.DIFFICULTY_MAPPING[key] == difficulty_enum:
-			return key
-	return "easy"  # fallback
 
 # Complete a quest and earn XP
 func complete_quest(quest_id: String):
@@ -189,9 +159,9 @@ func _make_request(endpoint: String, method: HTTPClient.Method, data: Dictionary
 	var url = API_BASE_URL + endpoint
 	var headers = ["Content-Type: application/json"]
 	
-	# Add user authentication header (DISABLED - backend doesn't support yet)
-	# if current_user_id != "":
-	#	headers.append("X-User-ID: " + current_user_id)
+	# Add user authentication header
+	if current_user_id != "":
+		headers.append("X-User-ID: " + current_user_id)
 	
 	var body = ""
 	if data.size() > 0:
@@ -207,7 +177,7 @@ func _make_request(endpoint: String, method: HTTPClient.Method, data: Dictionary
 		emit_signal("api_error", "Failed to make request: " + str(error))
 
 # Handle API responses
-func _on_request_completed(_result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray):
+func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 	print("ð¥ API Response: ", response_code)
 	
 	if response_code != 200:

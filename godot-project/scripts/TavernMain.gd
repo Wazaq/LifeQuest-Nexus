@@ -1,15 +1,24 @@
+class_name TavernMain
 extends Control
 
-# UI References
-@onready var generate_quest_button = $MainScroll/TavernContainer/MainVBox/QuestBoardSection/GenerateQuestButton
-@onready var no_quests_label = $MainScroll/TavernContainer/MainVBox/QuestBoardSection/ActiveQuestsContainer/NoQuestsLabel
-@onready var active_quests_container = $MainScroll/TavernContainer/MainVBox/QuestBoardSection/ActiveQuestsContainer
-@onready var level_value_label = $MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/LevelHBox/LevelValueLabel
-@onready var xp_value_label = $MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/XPHBox/XPValueLabel
-@onready var xp_progress_bar = $MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/XPProgressBar
+# UI References - Using proper node paths instead of unique names
+@onready var generate_quest_button: Button = $MainScroll/TavernContainer/MainVBox/QuestBoardSection/GenerateQuestButton
+@onready var no_quests_label: Label = $MainScroll/TavernContainer/MainVBox/QuestBoardSection/ActiveQuestsContainer/NoQuestsLabel
+@onready var active_quests_container: VBoxContainer = $MainScroll/TavernContainer/MainVBox/QuestBoardSection/ActiveQuestsContainer
+@onready var level_value_label: Label = $MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/LevelHBox/LevelValueLabel
+@onready var xp_value_label: Label = $MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/XPHBox/XPValueLabel
+@onready var xp_progress_bar: ProgressBar = $MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/XPProgressBar
 
-# Current quest state
+# Top Navigation UI References (primary navigation)
+@onready var top_profile_button: Button = $MainScroll/TavernContainer/MainVBox/TopNavigationBar/TopProfileButton
+@onready var top_tavern_button: Button = $MainScroll/TavernContainer/MainVBox/TopNavigationBar/TopTavernButton
+
+# Current quest state with proper validation
 var active_quest_data: Dictionary = {}
+var _quest_timeout_timer: Timer = null
+
+# UI state signals for better error handling (removed unused ones)
+# Note: Removed unused signals and variables to clean up warnings
 
 func _ready():
 	print("🏰 Tavern Main initialized")
@@ -20,6 +29,9 @@ func _ready():
 
 func connect_quest_system():
 	"""Connect to the QuestManager signals and button events"""
+	
+	# Connect navigation buttons first
+	connect_navigation_buttons()
 	
 	# Connect generate quest button
 	if generate_quest_button:
@@ -99,6 +111,11 @@ func show_no_active_quests():
 
 func clear_quest_display():
 	"""Clear any existing quest UI elements"""
+	# Safety check - make sure container exists
+	if not active_quests_container:
+		print("â ï¸ Active quests container not found")
+		return
+	
 	# Remove any previously created quest UI nodes
 	for child in active_quests_container.get_children():
 		if child.name.begins_with("QuestUI_"):
@@ -106,6 +123,11 @@ func clear_quest_display():
 
 func create_quest_ui(quest_data: Dictionary):
 	"""Create detailed quest UI with completion button"""
+	
+	# Safety check - make sure container exists
+	if not active_quests_container:
+		print("â ï¸ Cannot create quest UI - container not found")
+		return
 	
 	# Create main quest panel
 	var quest_panel = PanelContainer.new()
@@ -240,12 +262,50 @@ func _on_generate_quest_pressed():
 		generate_quest_button.disabled = true
 		generate_quest_button.text = "Generating..."
 	
+	# Set up timeout timer for quest generation
+	cleanup_quest_timer()  # Clean up any existing timer
+	_quest_timeout_timer = Timer.new()
+	_quest_timeout_timer.wait_time = 10.0  # 10 second timeout
+	_quest_timeout_timer.one_shot = true
+	_quest_timeout_timer.timeout.connect(_on_quest_timeout)
+	add_child(_quest_timeout_timer)
+	_quest_timeout_timer.start()
+	
+	print("🌐 Trying API quest generation...")
+	QuestManager.get_new_quest_api_first()
+	
 	# Request new quest from QuestManager
-	QuestManager.get_new_quest()
+	#QuestManager.get_new_quest()
+
+func cleanup_quest_timer():
+	"""Clean up quest timeout timer properly"""
+	if _quest_timeout_timer and is_instance_valid(_quest_timeout_timer):
+		_quest_timeout_timer.queue_free()
+		_quest_timeout_timer = null
+
+func _exit_tree():
+	"""Clean up resources when scene is freed"""
+	cleanup_quest_timer()
+
+func _on_quest_timeout():
+	"""Handle quest generation timeout"""
+	print("â° Quest generation timed out!")
+	
+	# Re-enable the button
+	if generate_quest_button:
+		generate_quest_button.disabled = false
+		generate_quest_button.text = "Generate New Quest"
+	
+	# Clean up the timer
+	cleanup_quest_timer()
+	
+	# Show user feedback
+	show_temporary_message("Quest generation timed out. Please try again!")
 
 # QuestManager Signal Handlers
 func _on_quest_available(quest_data: Dictionary):
 	"""Handle new quest generated"""
+	cleanup_quest_timer()
 	print("🎯 New quest available: ", quest_data.get("title", "Unknown"))
 	
 	# Store quest data
@@ -515,3 +575,115 @@ func setup_button_styles():
 	quest_button.add_theme_stylebox_override("normal", button_style)
 	quest_button.add_theme_stylebox_override("hover", button_hover)
 	quest_button.add_theme_color_override("font_color", Color("#2F4F4F"))  # Dark text
+	
+	# Style navigation buttons
+	style_navigation_buttons()
+
+func style_navigation_buttons():
+	"""Apply styling to navigation buttons"""
+	# Tavern button (current page - different style)
+	if top_tavern_button:
+		var current_style = StyleBoxFlat.new()
+		current_style.bg_color = Color("#8B4513")  # Saddle brown (active)
+		current_style.corner_radius_bottom_left = 8
+		current_style.corner_radius_bottom_right = 8
+		current_style.corner_radius_top_left = 8
+		current_style.corner_radius_top_right = 8
+		current_style.border_width_bottom = 2
+		current_style.border_width_top = 2
+		current_style.border_width_left = 2
+		current_style.border_width_right = 2
+		current_style.border_color = Color("#DAA520")  # Gold border
+		
+		top_tavern_button.add_theme_stylebox_override("normal", current_style)
+		top_tavern_button.add_theme_color_override("font_color", Color("#DAA520"))  # Gold text
+	
+	# Profile button (inactive page)
+	if top_profile_button:
+		var inactive_style = StyleBoxFlat.new()
+		inactive_style.bg_color = Color("#5D4037")  # Brown
+		inactive_style.corner_radius_bottom_left = 8
+		inactive_style.corner_radius_bottom_right = 8
+		inactive_style.corner_radius_top_left = 8
+		inactive_style.corner_radius_top_right = 8
+		
+		var inactive_hover = StyleBoxFlat.new()
+		inactive_hover.bg_color = Color("#8B4513")  # Darker brown on hover
+		inactive_hover.corner_radius_bottom_left = 8
+		inactive_hover.corner_radius_bottom_right = 8
+		inactive_hover.corner_radius_top_left = 8
+		inactive_hover.corner_radius_top_right = 8
+		
+		top_profile_button.add_theme_stylebox_override("normal", inactive_style)
+		top_profile_button.add_theme_stylebox_override("hover", inactive_hover)
+		top_profile_button.add_theme_color_override("font_color", Color("#F5DEB3"))  # Wheat text
+	
+	# Style top navigation buttons (primary navigation)
+	style_top_navigation_buttons()
+
+func style_top_navigation_buttons():
+	"""Apply prominent styling to top navigation buttons"""
+	# Top Tavern button (current page - very visible)
+	if top_tavern_button:
+		var active_style = StyleBoxFlat.new()
+		active_style.bg_color = Color("#DAA520")  # Goldenrod (very active)
+		active_style.corner_radius_bottom_left = 12
+		active_style.corner_radius_bottom_right = 12
+		active_style.corner_radius_top_left = 12
+		active_style.corner_radius_top_right = 12
+		active_style.border_width_bottom = 3
+		active_style.border_width_top = 3
+		active_style.border_width_left = 3
+		active_style.border_width_right = 3
+		active_style.border_color = Color("#FFD700")  # Bright gold border
+		
+		top_tavern_button.add_theme_stylebox_override("normal", active_style)
+		top_tavern_button.add_theme_color_override("font_color", Color("#2F4F4F"))  # Dark text
+		top_tavern_button.add_theme_font_size_override("font_size", 18)
+	
+	# Top Profile button (inactive but very clickable)
+	if top_profile_button:
+		var clickable_style = StyleBoxFlat.new()
+		clickable_style.bg_color = Color("#8B4513")  # Saddle brown
+		clickable_style.corner_radius_bottom_left = 12
+		clickable_style.corner_radius_bottom_right = 12
+		clickable_style.corner_radius_top_left = 12
+		clickable_style.corner_radius_top_right = 12
+		
+		var clickable_hover = StyleBoxFlat.new()
+		clickable_hover.bg_color = Color("#DAA520")  # Gold on hover
+		clickable_hover.corner_radius_bottom_left = 12
+		clickable_hover.corner_radius_bottom_right = 12
+		clickable_hover.corner_radius_top_left = 12
+		clickable_hover.corner_radius_top_right = 12
+		
+		top_profile_button.add_theme_stylebox_override("normal", clickable_style)
+		top_profile_button.add_theme_stylebox_override("hover", clickable_hover)
+		top_profile_button.add_theme_color_override("font_color", Color("#F5DEB3"))  # Wheat text
+		top_profile_button.add_theme_font_size_override("font_size", 18)
+
+# Navigation Event Handlers
+func _on_profile_button_pressed():
+	"""Handle Profile button press - switch to Profile scene"""
+	print("ð¤ Switching to Profile scene...")
+	get_tree().change_scene_to_file("res://scenes/ProfileScene.tscn")
+
+func _on_tavern_button_pressed():
+	"""Handle Tavern button press - already in Tavern, just log"""
+	print("ð° Already in Tavern!")
+
+# Enhanced connect function to include navigation
+func connect_navigation_buttons():
+	"""Connect navigation buttons"""
+	# Connect top navigation buttons (primary navigation)
+	if top_profile_button:
+		top_profile_button.pressed.connect(_on_profile_button_pressed)
+		print("â Top Profile button connected")
+	else:
+		print("â Top Profile button not found!")
+	
+	if top_tavern_button:
+		top_tavern_button.pressed.connect(_on_tavern_button_pressed)
+		print("â Top Tavern button connected")
+	else:
+		print("â Top Tavern button not found!")

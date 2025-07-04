@@ -1,0 +1,91 @@
+{
+  "categories": {
+	"foundation_realm": {
+	  "name": "Foundation Realm",
+	  "subtitle": "The Survivor's Path",
+	  "color": "#32CD32",
+	  "icon": "ð¥",
+	  "description": "Master the basics of health and energy to build your foundation",
+	  "unlock_level": 1,
+	  "maslow_tier": "physiological",
+	  "theme_description": "Every great hero starts with the basics. Strengthen your body and mind."
+	},
+	"safety_sanctum": {
+	  "name": "Safety Sanctum", 
+	  "subtitle": "The Guardian's Watch",
+	  "color": "#4169E1",
+	  "icon": "ð¡ï¸", 
+	  "description": "Build security, organization, and stability in your domain",
+	  "unlock_level": 2,
+	  "maslow_tier": "safety",
+	  "theme_description": "A true guardian protects what matters. Secure your realm."
+	},
+	"connection_crossroads": {
+	  "name": "Connection Crossroads",
+	  "subtitle": "The Companion's Journey", 
+	  "color": "#FF69B4",
+	  "icon": "ð",
+	  "description": "Forge meaningful bonds and strengthen your social connections",
+	  "unlock_level": 3,
+	  "maslow_tier": "love_belonging",
+	  "theme_description": "No hero journeys alone. Build alliances that last lifetimes."
+	},
+	"recognition_ridge": {
+	  "name": "Recognition Ridge",
+	  "subtitle": "The Champion's Ascent",
+	  "color": "#FFD700", 
+	  "icon": "ð",
+	  "description": "Develop mastery, gain recognition, and achieve excellence",
+	  "unlock_level": 5,
+	  "maslow_tier": "esteem",
+	  "theme_description": "Champions are forged through challenge. Rise to claim your place."
+	},
+	"actualization_apex": {
+	  "name": "Actualization Apex",
+	  "subtitle": "The Sage's Wisdom",
+	  "color": "#9370DB",
+	  "icon": "ð", 
+	  "description": "Discover your purpose and leave a lasting legacy",
+	  "unlock_level": 8,
+	  "maslow_tier": "self_actualization",
+	  "theme_description": "The highest peak awaits. Become who you were meant to be."
+	}
+  },
+  "difficulty_levels": {
+	"trivial": {
+	  "name": "Trivial",
+	  "color": "#90EE90",
+	  "icon": "âª",
+	  "xp_range": [5, 15],
+	  "description": "A simple task to build momentum"
+	},
+	"easy": {
+	  "name": "Easy", 
+	  "color": "#32CD32",
+	  "icon": "ð¢",
+	  "xp_range": [15, 25],
+	  "description": "A comfortable challenge for steady growth"
+	},
+	"medium": {
+	  "name": "Medium",
+	  "color": "#FFD700", 
+	  "icon": "ð¡",
+	  "xp_range": [25, 40],
+	  "description": "A meaningful effort with solid rewards"
+	},
+	"hard": {
+	  "name": "Hard",
+	  "color": "#FF6347",
+	  "icon": "ð´", 
+	  "xp_range": [40, 60],
+	  "description": "A significant challenge for dedicated heroes"
+	},
+	"epic": {
+	  "name": "Epic",
+	  "color": "#9370DB",
+	  "icon": "ð£",
+	  "xp_range": [60, 100],
+	  "description": "A legendary feat worthy of true champions"
+	}
+  }
+}

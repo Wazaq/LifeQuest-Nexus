@@ -1,0 +1,120 @@
+{
+  "category": "recognition_ridge",
+  "theme": "Skills, Achievement, and Personal Excellence",
+  "quests": [
+    {
+      "id": "skill_forger",
+      "title": "Skill Forger",
+      "description": "Spend 30 minutes practicing a skill you want to improve. Mastery is built one focused session at a time.",
+      "xp_reward": 35,
+      "difficulty": "medium",
+      "tags": ["skill", "learning", "practice", "mastery"],
+      "duration": "30 minutes",
+      "objectives": [
+        "Choose one specific skill to practice",
+        "Focus on deliberate, mindful practice", 
+        "Track what you learned or improved"
+      ],
+      "tips": [
+        "Quality practice beats quantity every time",
+        "Break complex skills into smaller components",
+        "Celebrate small improvements along the way"
+      ]
+    },
+    {
+      "id": "achievement_chronicler",
+      "title": "Achievement Chronicler",
+      "description": "Write down 3 things you accomplished today, no matter how small. Recognition starts with self-awareness.",
+      "xp_reward": 20,
+      "difficulty": "trivial",
+      "tags": ["reflection", "achievement", "writing", "self_awareness"],
+      "duration": "10 minutes",
+      "objectives": [
+        "Identify 3 things you accomplished today",
+        "Write them down with specific details",
+        "Acknowledge your progress and effort"
+      ],
+      "tips": [
+        "Include small wins - they count too",
+        "Focus on effort as much as results",
+        "Keep a running list to see patterns over time"
+      ]
+    },
+    {
+      "id": "challenge_conqueror",
+      "title": "Challenge Conqueror",
+      "description": "Tackle one task you've been putting off because it seemed difficult. Champions face their dragons.",
+      "xp_reward": 50,
+      "difficulty": "hard",
+      "tags": ["challenge", "procrastination", "achievement", "courage"],
+      "duration": "45-90 minutes",
+      "objectives": [
+        "Identify one challenging task you've been avoiding",
+        "Break it into smaller, manageable steps",
+        "Complete at least the first significant step"
+      ],
+      "tips": [
+        "Start with just 15 minutes if it feels overwhelming",
+        "Break big tasks into smaller, specific actions",
+        "You're more capable than your doubt tells you"
+      ]
+    },
+    {
+      "id": "knowledge_seeker",
+      "title": "Knowledge Seeker",
+      "description": "Learn something new for 20 minutes in an area that interests you. Curiosity is the engine of achievement.",
+      "xp_reward": 30,
+      "difficulty": "easy",
+      "tags": ["learning", "knowledge", "growth", "curiosity"],
+      "duration": "20 minutes",
+      "objectives": [
+        "Choose a topic that genuinely interests you",
+        "Engage with learning material for 20 focused minutes",
+        "Take notes or reflect on what you learned"
+      ],
+      "tips": [
+        "Follow your genuine curiosity",
+        "Videos, articles, books - any format works",
+        "Teaching someone else helps solidify learning"
+      ]
+    },
+    {
+      "id": "confidence_architect",
+      "title": "Confidence Architect",
+      "description": "Do something slightly outside your comfort zone to build confidence. Courage grows through practice.",
+      "xp_reward": 45,
+      "difficulty": "hard",
+      "tags": ["confidence", "growth", "challenge", "courage"],
+      "duration": "30-60 minutes",
+      "objectives": [
+        "Identify something slightly outside your comfort zone",
+        "Take action despite feeling nervous",
+        "Reflect on how it felt and what you learned"
+      ],
+      "tips": [
+        "Start with 'slightly' uncomfortable, not terrifying",
+        "Nerves are normal and show you're growing",
+        "Each small brave act builds confidence for bigger ones"
+      ]
+    },
+    {
+      "id": "excellence_craftsperson",
+      "title": "Excellence Craftsperson",
+      "description": "Take something you do regularly and find one way to do it better. Excellence is a habit, not a destination.",
+      "xp_reward": 30,
+      "difficulty": "medium",
+      "tags": ["excellence", "improvement", "quality", "refinement"],
+      "duration": "20-40 minutes",
+      "objectives": [
+        "Choose a routine task or skill",
+        "Research or think of one improvement",
+        "Implement the improvement mindfully"
+      ],
+      "tips": [
+        "Small improvements compound over time",
+        "Focus on process, not just outcomes",
+        "Ask 'How could I do this 10% better?'"
+      ]
+    }
+  ]
+}
