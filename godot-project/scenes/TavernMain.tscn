@@ -214,15 +214,21 @@ layout_mode = 2
 text = "You're testing an early alpha version. Your feedback shapes the future of LifeQuest!"
 horizontal_alignment = 1
 
+[node name="Spacer3" type="Control" parent="MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
 [node name="ButtonsHBox" type="HBoxContainer" parent="MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox"]
 layout_mode = 2
 
 [node name="FeedbackFormButton" type="Button" parent="MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox/ButtonsHBox"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Feedback Form"
 
 [node name="DiscordButton" type="Button" parent="MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox/ButtonsHBox"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Join Discord"

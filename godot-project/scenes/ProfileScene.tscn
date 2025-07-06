@@ -185,5 +185,7 @@ text = "No completed quests yet. Start your adventure!"
 horizontal_alignment = 1
 
 [node name="BackToTavernButton" type="Button" parent="MainScroll/ProfileContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Back to Tavern"

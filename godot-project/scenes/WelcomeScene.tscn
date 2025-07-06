@@ -96,6 +96,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="PrevButton" type="Button" parent="MainScroll/WelcomeContainer/MainVBox/ButtonsContainer"]
+custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
 text = "<-- Go Back"
 
@@ -104,5 +105,6 @@ custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
 [node name="NextButton" type="Button" parent="MainScroll/WelcomeContainer/MainVBox/ButtonsContainer"]
+custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
 text = "Next -->"
