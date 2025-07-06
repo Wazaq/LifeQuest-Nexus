@@ -10,8 +10,8 @@ extends Control
 @onready var xp_progress_bar: ProgressBar = $MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/XPProgressBar
 
 # Top Navigation UI References (primary navigation)
-@onready var top_profile_button: Button = $MainScroll/TavernContainer/MainVBox/TopNavigationBar/TopProfileButton
-@onready var top_tavern_button: Button = $MainScroll/TavernContainer/MainVBox/TopNavigationBar/TopTavernButton
+@onready var bottom_profile_button: Button = $MainScroll/TavernContainer/MainVBox/BottomNavigationBar/BottomProfileButton
+@onready var bottom_tavern_button: Button = $MainScroll/TavernContainer/MainVBox/BottomNavigationBar/BottomTavernButton
 
 # Current quest state with proper validation
 var active_quest_data: Dictionary = {}
@@ -68,10 +68,10 @@ func update_user_interface():
 	
 	# Update character stats display
 	if level_value_label:
-		level_value_label.text = str(stats.level)
+		level_value_label.text = str(int(stats.level))
 	
 	if xp_value_label:
-		xp_value_label.text = str(stats.xp)
+		xp_value_label.text = str(int(stats.xp))
 	
 	# Update XP progress bar
 	if xp_progress_bar:
@@ -582,7 +582,7 @@ func setup_button_styles():
 func style_navigation_buttons():
 	"""Apply styling to navigation buttons"""
 	# Tavern button (current page - different style)
-	if top_tavern_button:
+	if bottom_tavern_button:
 		var current_style = StyleBoxFlat.new()
 		current_style.bg_color = Color("#8B4513")  # Saddle brown (active)
 		current_style.corner_radius_bottom_left = 8
@@ -595,11 +595,11 @@ func style_navigation_buttons():
 		current_style.border_width_right = 2
 		current_style.border_color = Color("#DAA520")  # Gold border
 		
-		top_tavern_button.add_theme_stylebox_override("normal", current_style)
-		top_tavern_button.add_theme_color_override("font_color", Color("#DAA520"))  # Gold text
+		bottom_tavern_button.add_theme_stylebox_override("normal", current_style)
+		bottom_tavern_button.add_theme_color_override("font_color", Color("#DAA520"))  # Gold text
 	
 	# Profile button (inactive page)
-	if top_profile_button:
+	if bottom_profile_button:
 		var inactive_style = StyleBoxFlat.new()
 		inactive_style.bg_color = Color("#5D4037")  # Brown
 		inactive_style.corner_radius_bottom_left = 8
@@ -614,17 +614,17 @@ func style_navigation_buttons():
 		inactive_hover.corner_radius_top_left = 8
 		inactive_hover.corner_radius_top_right = 8
 		
-		top_profile_button.add_theme_stylebox_override("normal", inactive_style)
-		top_profile_button.add_theme_stylebox_override("hover", inactive_hover)
-		top_profile_button.add_theme_color_override("font_color", Color("#F5DEB3"))  # Wheat text
+		bottom_profile_button.add_theme_stylebox_override("normal", inactive_style)
+		bottom_profile_button.add_theme_stylebox_override("hover", inactive_hover)
+		bottom_profile_button.add_theme_color_override("font_color", Color("#F5DEB3"))  # Wheat text
 	
 	# Style top navigation buttons (primary navigation)
 	style_top_navigation_buttons()
 
 func style_top_navigation_buttons():
 	"""Apply prominent styling to top navigation buttons"""
-	# Top Tavern button (current page - very visible)
-	if top_tavern_button:
+	# Bottom Tavern button
+	if bottom_tavern_button:
 		var active_style = StyleBoxFlat.new()
 		active_style.bg_color = Color("#DAA520")  # Goldenrod (very active)
 		active_style.corner_radius_bottom_left = 12
@@ -637,12 +637,12 @@ func style_top_navigation_buttons():
 		active_style.border_width_right = 3
 		active_style.border_color = Color("#FFD700")  # Bright gold border
 		
-		top_tavern_button.add_theme_stylebox_override("normal", active_style)
-		top_tavern_button.add_theme_color_override("font_color", Color("#2F4F4F"))  # Dark text
-		top_tavern_button.add_theme_font_size_override("font_size", 18)
+		bottom_tavern_button.add_theme_stylebox_override("normal", active_style)
+		bottom_tavern_button.add_theme_color_override("font_color", Color("#2F4F4F"))  # Dark text
+		bottom_tavern_button.add_theme_font_size_override("font_size", 18)
 	
-	# Top Profile button (inactive but very clickable)
-	if top_profile_button:
+	# Bottom Profile button
+	if bottom_profile_button:
 		var clickable_style = StyleBoxFlat.new()
 		clickable_style.bg_color = Color("#8B4513")  # Saddle brown
 		clickable_style.corner_radius_bottom_left = 12
@@ -657,10 +657,10 @@ func style_top_navigation_buttons():
 		clickable_hover.corner_radius_top_left = 12
 		clickable_hover.corner_radius_top_right = 12
 		
-		top_profile_button.add_theme_stylebox_override("normal", clickable_style)
-		top_profile_button.add_theme_stylebox_override("hover", clickable_hover)
-		top_profile_button.add_theme_color_override("font_color", Color("#F5DEB3"))  # Wheat text
-		top_profile_button.add_theme_font_size_override("font_size", 18)
+		bottom_profile_button.add_theme_stylebox_override("normal", clickable_style)
+		bottom_profile_button.add_theme_stylebox_override("hover", clickable_hover)
+		bottom_profile_button.add_theme_color_override("font_color", Color("#F5DEB3"))  # Wheat text
+		bottom_profile_button.add_theme_font_size_override("font_size", 18)
 
 # Navigation Event Handlers
 func _on_profile_button_pressed():
@@ -676,14 +676,14 @@ func _on_tavern_button_pressed():
 func connect_navigation_buttons():
 	"""Connect navigation buttons"""
 	# Connect top navigation buttons (primary navigation)
-	if top_profile_button:
-		top_profile_button.pressed.connect(_on_profile_button_pressed)
-		print("â Top Profile button connected")
+	if bottom_profile_button:
+		bottom_profile_button.pressed.connect(_on_profile_button_pressed)
+		print("Bottom Profile button connected")
 	else:
-		print("â Top Profile button not found!")
+		print("Bottom Profile button not found!")
 	
-	if top_tavern_button:
-		top_tavern_button.pressed.connect(_on_tavern_button_pressed)
-		print("â Top Tavern button connected")
+	if bottom_tavern_button:
+		bottom_tavern_button.pressed.connect(_on_tavern_button_pressed)
+		print("Bottom Tavern button connected")
 	else:
-		print("â Top Tavern button not found!")
+		print("Bottom Tavern button not found!")

@@ -1,0 +1,108 @@
+[gd_scene load_steps=2 format=3 uid="uid://djmbv5s7qcnlt"]
+
+[ext_resource type="Script" uid="uid://cr326gadhsx5p" path="res://scripts/WelcomeScene.gd" id="1_r7phi"]
+
+[node name="Welcome Scene" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 720.0
+offset_bottom = 960.0
+script = ExtResource("1_r7phi")
+
+[node name="MainScroll" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WelcomeContainer" type="PanelContainer" parent="MainScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MainVBox" type="VBoxContainer" parent="MainScroll/WelcomeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="HeaderSection" type="VBoxContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/HeaderSection"]
+layout_mode = 2
+text = "Welcome To LifeQuest!"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/HeaderSection"]
+layout_mode = 2
+text = "Alpha Testing Guide"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="GameExplanationPanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
+visible = false
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GameText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/GameExplanationPanel"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "LifeQuest turns your daily tasks into a simple game. Complete things in real life, earn XP, level up your character.
+
+Whether it's cleaning your room, calling a friend, or trying a new recipe - every small action becomes progress toward something bigger.
+
+The app suggests tasks that match your current level, so you're never overwhelmed. Start small, build momentum, tackle bigger challenges when you're ready.
+
+No complicated systems or psychology lectures - just you, making progress, one quest at a time."
+autowrap_mode = 3
+
+[node name="AlphaExplanationPanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
+visible = false
+layout_mode = 2
+
+[node name="AlphaText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/AlphaExplanationPanel"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "You're testing an early version of LifeQuest - things might be rough around the edges, and some features are still being built.
+
+What works: Quest generation, XP tracking, basic progression. What might break: Some buttons, occasional loading issues, maybe a crash here and there.
+
+Your feedback shapes what gets built next. Found a bug? Great! Wish something worked differently? Tell us! The whole point of alpha testing is finding problems before anyone else sees them.
+
+Thanks for being brave enough to test unfinished software. Your patience and input make LifeQuest better for everyone."
+autowrap_mode = 3
+
+[node name="PatchNotesPanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
+layout_mode = 2
+
+[node name="PatchText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/PatchNotesPanel"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "Filler text for patch notes"
+autowrap_mode = 3
+
+[node name="Spacer2" type="Control" parent="MainScroll/WelcomeContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="PrevButton" type="Button" parent="MainScroll/WelcomeContainer/MainVBox/ButtonsContainer"]
+layout_mode = 2
+text = "<-- Go Back"
+
+[node name="Spacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox/ButtonsContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="NextButton" type="Button" parent="MainScroll/WelcomeContainer/MainVBox/ButtonsContainer"]
+layout_mode = 2
+text = "Next -->"

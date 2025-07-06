@@ -75,7 +75,7 @@ func connect_buttons():
 
 func load_user_profile():
 	"""Load and display current user profile"""
-	print("ð Loading user profile...")
+	print("Loading user profile...")
 	
 	# Display current user ID
 	if APIManager:
@@ -145,24 +145,14 @@ func update_character_stats():
 	var xp = current_profile_data.get("total_xp", 0)
 	
 	if level_value_label:
-		level_value_label.text = str(level)
+		level_value_label.text = str(int(level))
 	
 	if xp_value_label:
-		xp_value_label.text = str(xp)
+		xp_value_label.text = str(int(xp))
 	
 	# Calculate XP progress toward next level
 	if xp_progress_bar:
-		# Simple calculation: each level needs (level * 100) XP
-		var current_level_xp = level * 100
-		var next_level_xp = (level + 1) * 100
-		var progress = 0.0
-		
-		if next_level_xp > current_level_xp:
-			var current_progress = xp - current_level_xp
-			var needed_for_next = next_level_xp - current_level_xp
-			progress = float(current_progress) / float(needed_for_next)
-			progress = clamp(progress, 0.0, 1.0)
-		
+		var progress = QuestManager.get_level_progress()
 		xp_progress_bar.value = progress * 100
 
 func update_maslow_progress():
@@ -224,7 +214,7 @@ func update_quest_history():
 # Button Event Handlers
 func _on_new_user_button_pressed():
 	"""Handle New User button press"""
-	print("ð Creating new user...")
+	print("Creating new user...")
 	
 	if new_user_button:
 		new_user_button.disabled = true
@@ -242,7 +232,7 @@ func _on_new_user_button_pressed():
 
 func _on_refresh_profile_button_pressed():
 	"""Handle Refresh Profile button press"""
-	print("ð Refreshing profile...")
+	print("Refreshing profile...")
 	
 	if refresh_profile_button:
 		refresh_profile_button.disabled = true
@@ -259,7 +249,7 @@ func _on_refresh_profile_button_pressed():
 
 func show_temporary_message(message: String):
 	"""Show a temporary message to the user"""
-	print("ð¢ Profile Message: ", message)
+	print("Profile Message: ", message)
 	# For now, just log. Later we could add a notification system
 
 func setup_profile_styling():

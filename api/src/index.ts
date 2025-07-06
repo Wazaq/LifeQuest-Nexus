@@ -6,7 +6,7 @@
  */
 
 import { QuestEngine } from './engine/quest-engine';
-import { createResponse, createErrorResponse, handleCORS, getTestUser, parseRequestBody } from './util/api-utils';
+import { createResponse, createErrorResponse, handleCORS, getTestUser, getUserFromRequest, parseRequestBody } from './util/api-utils';
 
 export interface Env {
   DB: D1Database;
@@ -53,7 +53,7 @@ export default {
         
         // Generate random quest
         if (url.pathname === '/api/quests/generate' && method === 'POST') {
-          const userId = await getTestUser(env.DB);
+          const userId = await getUserFromRequest(request, env.DB);
           const quest = await questEngine.generateRandomQuest(userId);
           return createResponse(quest, 'Quest generated successfully');
         }
@@ -61,7 +61,7 @@ export default {
         // Complete quest
         if (url.pathname.startsWith('/api/quests/') && url.pathname.endsWith('/complete') && method === 'POST') {
           const questId = url.pathname.split('/')[3];
-          const userId = await getTestUser(env.DB);
+          const userId = await getUserFromRequest(request, env.DB);
           const result = await questEngine.completeQuest(userId, questId);
           
           let message = `Quest completed! +${result.xp_gained} XP`;
@@ -77,21 +77,21 @@ export default {
 
         // Get user profile
         if (url.pathname === '/api/user/profile' && method === 'GET') {
-          const userId = await getTestUser(env.DB);
+          const userId = await getUserFromRequest(request, env.DB);
           const profile = await questEngine.getUserProfile(userId);
           return createResponse(profile);
         }
 
         // Get active quests
         if (url.pathname === '/api/quests/active' && method === 'GET') {
-          const userId = await getTestUser(env.DB);
+          const userId = await getUserFromRequest(request, env.DB);
           const activeQuests = await questEngine.getActiveQuests(userId);
           return createResponse(activeQuests);
         }
 
         // Get available quest count (for UI)
         if (url.pathname === '/api/quests/available-count' && method === 'GET') {
-          const userId = await getTestUser(env.DB);
+          const userId = await getUserFromRequest(request, env.DB);
           const userStats = await questEngine.getUserProfile(userId);
           const unlockedTiers = userStats.unlocked_tiers;
           

@@ -68,6 +68,57 @@ export function handleCORS(): Response {
 }
 
 /**
+ * Get or create user based on X-User-ID header
+ * Falls back to test user if no header provided
+ */
+export async function getUserFromRequest(request: Request, db: D1Database): Promise<string> {
+  // Get user ID from header
+  const headerUserId = request.headers.get('X-User-ID');
+  
+  if (headerUserId) {
+    // Use provided user ID - create user if doesn't exist
+    return await getOrCreateUser(db, headerUserId);
+  } else {
+    // Fallback to test user for backwards compatibility
+    return await getTestUser(db);
+  }
+}
+
+/**
+ * Get or create user by ID
+ */
+export async function getOrCreateUser(db: D1Database, clientUserId: string): Promise<string> {
+  // Check if user exists by matching the client user ID as username
+  let user = await db.prepare('SELECT id FROM users WHERE username = ?').bind(clientUserId).first();
+  
+  if (!user) {
+    // Create new user with client ID as username
+    const userId = crypto.randomUUID();
+    await db.prepare(`
+      INSERT INTO users (id, username, created_at, last_active, total_xp, current_level, unlocked_tiers)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).bind(
+      userId, 
+      clientUserId,  // Use client ID as username for tracking
+      new Date().toISOString(), 
+      new Date().toISOString(), 
+      0, 
+      1, 
+      JSON.stringify(['physiological'])
+    ).run();
+    
+    console.log(`🆕 Created new user: ${clientUserId} -> ${userId}`);
+    return userId;
+  }
+  
+  // Update last active time
+  await db.prepare('UPDATE users SET last_active = ? WHERE id = ?')
+    .bind(new Date().toISOString(), user.id as string).run();
+  
+  return user.id as string;
+}
+
+/**
  * Simple test user authentication (for development)
  * In production, this would be JWT token validation
  */

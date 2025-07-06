@@ -92,7 +92,7 @@ layout_mode = 2
 
 [node name="UserTitle" type="Label" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox"]
 layout_mode = 2
-text = "User Session"
+text = "User Session (Alpha controls)"
 horizontal_alignment = 1
 
 [node name="UserIdHBox" type="HBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox"]
@@ -111,17 +111,23 @@ layout_mode = 2
 
 [node name="NewUserButton" type="Button" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox/ButtonsHBox"]
 layout_mode = 2
-text = "Create New User"
+text = "Reset Profile"
+
+[node name="Control" type="Control" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox/ButtonsHBox"]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
 
 [node name="RefreshProfileButton" type="Button" parent="MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox/ButtonsHBox"]
 layout_mode = 2
 text = "Refresh Profile"
 
 [node name="Spacer3" type="Control" parent="MainScroll/ProfileContainer/MainVBox"]
+visible = false
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
 [node name="MaslowProgressPanel" type="PanelContainer" parent="MainScroll/ProfileContainer/MainVBox"]
+visible = false
 layout_mode = 2
 
 [node name="MaslowVBox" type="VBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/MaslowProgressPanel"]
@@ -159,6 +165,7 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
 [node name="QuestHistoryPanel" type="PanelContainer" parent="MainScroll/ProfileContainer/MainVBox"]
+visible = false
 layout_mode = 2
 
 [node name="HistoryVBox" type="VBoxContainer" parent="MainScroll/ProfileContainer/MainVBox/QuestHistoryPanel"]

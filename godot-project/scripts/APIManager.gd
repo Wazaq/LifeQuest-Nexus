@@ -25,8 +25,8 @@ func _ready():
 	add_child(http_request)
 	http_request.request_completed.connect(_on_request_completed)
 	
-	print("ð® LifeQuest API Manager initialized")
-	print("ð¡ API Base URL: ", API_BASE_URL)
+	print("LifeQuest API Manager initialized")
+	print("API Base URL: ", API_BASE_URL)
 	
 	# Initialize user session
 	initialize_user_session()
@@ -34,7 +34,7 @@ func _ready():
 # User Session Management
 func initialize_user_session():
 	"""Load existing user session or create new user"""
-	print("ð Initializing user session...")
+	print("Initializing user session...")
 	
 	# Try to load saved user ID from local storage (Godot equivalent)
 	var save_file_path = "user://lifequest_user.save"
@@ -60,10 +60,10 @@ func load_user_session(file_path: String):
 		
 		if parse_result == OK and json.data.has("user_id"):
 			current_user_id = json.data.user_id
-			print("â Loaded user session: ", current_user_id)
+			print("Loaded user session: ", current_user_id)
 			return true
 		else:
-			print("â Invalid save file format")
+			print("Invalid save file format")
 	
 	# Fallback to creating new user
 	create_new_user()
@@ -84,17 +84,17 @@ func save_user_session():
 		print("ð¾ User session saved")
 		return true
 	else:
-		print("â Failed to save user session")
+		print("Failed to save user session")
 		return false
 
 func create_new_user():
 	"""Generate new unique user ID and create user via API"""
 	# Generate unique user ID
 	current_user_id = generate_unique_user_id()
-	print("ð Generated new user ID: ", current_user_id)
+	print("Generated new user ID: ", current_user_id)
 	
 	# TEMPORARY: Skip API user creation (backend doesn't support it yet)
-	print("â ï¸ TEMP: Using existing backend user system")
+	print("TEMP: Using existing backend user system")
 	save_user_session()
 	
 	# Auto-fetch profile to initialize user
@@ -103,7 +103,7 @@ func create_new_user():
 
 func generate_unique_user_id() -> String:
 	"""Generate cryptographically unique user ID"""
-	var timestamp = str(Time.get_unix_time_from_system())
+	var timestamp = int(Time.get_unix_time_from_system())
 	var random_bytes = []
 	
 	# Generate 16 random bytes
@@ -115,11 +115,11 @@ func generate_unique_user_id() -> String:
 	for byte in random_bytes:
 		hex_string += "%02x" % byte
 	
-	return timestamp + "_" + hex_string
+	return str(timestamp) + "_" + hex_string
 
 # Test API connection
 func test_connection():
-	print("ð Testing API connection...")
+	print("Testing API connection...")
 	_make_request("/health", HTTPClient.METHOD_GET)
 
 # Generate a random quest using our smart algorithm
@@ -146,7 +146,7 @@ func generate_quest_with_difficulty(recommended_difficulties: Array, preferred_c
 		"preferred_category": QuestManager.CATEGORY_MAPPING[preferred_category]
 	}
 	
-	print("ð¯ Generating level-appropriate quest for user: ", current_user_id)
+	print("  Generating level-appropriate quest for user: ", current_user_id)
 	print("  Preferred difficulties: ", difficulty_strings)
 	print("  Preferred category: ", QuestManager.CATEGORY_MAPPING[preferred_category])
 	
@@ -162,26 +162,26 @@ func get_difficulty_string_from_enum(difficulty_enum: QuestManager.QuestDifficul
 # Complete a quest and earn XP
 func complete_quest(quest_id: String):
 	if current_user_id == "":
-		print("â No user session - cannot complete quest")
+		print("No user session - cannot complete quest")
 		return
-	print("â Completing quest: ", quest_id, " for user: ", current_user_id)
+	print("Completing quest: ", quest_id, " for user: ", current_user_id)
 	var endpoint = "/api/quests/" + quest_id + "/complete"
 	_make_request(endpoint, HTTPClient.METHOD_POST)
 
 # Get user profile and stats
 func get_user_profile():
 	if current_user_id == "":
-		print("â No user session - cannot get profile")
+		print("No user session - cannot get profile")
 		return
-	print("ð¤ Fetching user profile for: ", current_user_id)
+	print("Fetching user profile for: ", current_user_id)
 	_make_request("/api/user/profile", HTTPClient.METHOD_GET)
 
 # Get active quests
 func get_active_quests():
 	if current_user_id == "":
-		print("â No user session - cannot get active quests")
+		print("No user session - cannot get active quests")
 		return
-	print("ð Fetching active quests for user: ", current_user_id)
+	print("Fetching active quests for user: ", current_user_id)
 	_make_request("/api/quests/active", HTTPClient.METHOD_GET)
 
 # Generic request handler
@@ -190,29 +190,29 @@ func _make_request(endpoint: String, method: HTTPClient.Method, data: Dictionary
 	var headers = ["Content-Type: application/json"]
 	
 	# Add user authentication header (DISABLED - backend doesn't support yet)
-	# if current_user_id != "":
-	#	headers.append("X-User-ID: " + current_user_id)
+	if current_user_id != "":
+		headers.append("X-User-ID: " + current_user_id)
 	
 	var body = ""
 	if data.size() > 0:
 		body = JSON.stringify(data)
 	
-	print("ð¤ API Request: ", method_to_string(method), " ", endpoint)
+	print("API Request: ", method_to_string(method), " ", endpoint)
 	if current_user_id != "":
-		print("ð User ID: ", current_user_id)
+		print("User ID: ", current_user_id)
 	
 	var error = http_request.request(url, headers, method, body)
 	if error != OK:
-		print("â Request failed with error: ", error)
+		print("Request failed with error: ", error)
 		emit_signal("api_error", "Failed to make request: " + str(error))
 
 # Handle API responses
 func _on_request_completed(_result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray):
-	print("ð¥ API Response: ", response_code)
+	print("API Response: ", response_code)
 	
 	if response_code != 200:
 		var error_msg = "API returned status: " + str(response_code)
-		print("â ", error_msg)
+		print(" ", error_msg)
 		emit_signal("api_error", error_msg)
 		return
 	
@@ -221,20 +221,20 @@ func _on_request_completed(_result: int, response_code: int, _headers: PackedStr
 	var parse_result = json.parse(body.get_string_from_utf8())
 	
 	if parse_result != OK:
-		print("â Failed to parse JSON response")
+		print("Failed to parse JSON response")
 		emit_signal("api_error", "Invalid JSON response")
 		return
 	
 	var response_data = json.data
 	
 	if not response_data.has("success"):
-		print("â Invalid API response format")
+		print("Invalid API response format")
 		emit_signal("api_error", "Invalid response format")
 		return
 	
 	if not response_data.success:
 		var error_msg = response_data.get("error", "Unknown API error")
-		print("â API Error: ", error_msg)
+		print("API Error: ", error_msg)
 		emit_signal("api_error", error_msg)
 		return
 	
@@ -246,21 +246,21 @@ func _handle_successful_response(response_data: Dictionary):
 	var data = response_data.get("data", {})
 	var message = response_data.get("message", "")
 	
-	print("â API Success: ", message)
+	print("API Success: ", message)
 	
 	# Determine response type by checking data structure
 	if data.has("id") and data.has("title") and data.has("description"):
 		# This is a quest object
-		print("ð¯ Quest received: ", data.title)
+		print("Quest received: ", data.title)
 		emit_signal("quest_generated", data)
 		
 	elif data.has("xp_gained"):
 		# This is a quest completion result
-		print("ð Quest completed! +", data.xp_gained, " XP")
+		print("Quest completed! +", data.xp_gained, " XP")
 		if data.get("level_up", false):
-			print("ð LEVEL UP!")
+			print("LEVEL UP!")
 		if data.get("tier_unlocks", []).size() > 0:
-			print("ð New tiers unlocked: ", data.tier_unlocks)
+			print("New tiers unlocked: ", data.tier_unlocks)
 		emit_signal("quest_completed", data)
 		
 	elif data.has("username") or data.has("current_level"):
@@ -300,12 +300,13 @@ func test_quest_flow():
 # Debug function to reset user session (for testing)
 func reset_user_session():
 	"""Delete saved user session and create new user"""
-	print("ð Resetting user session...")
+	print("Resetting user session...")
 	var save_file_path = "user://lifequest_user.save"
 	
 	if FileAccess.file_exists(save_file_path):
 		DirAccess.remove_absolute(save_file_path)
-		print("ðï¸ Deleted old user session")
+		print("Deleted old user session")
 	
 	current_user_id = ""
+	print("Current User ID has been cleared")
 	create_new_user()

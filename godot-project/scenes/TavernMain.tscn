@@ -118,6 +118,7 @@ text = "No active quests. Generate your first adventure above!"
 horizontal_alignment = 1
 
 [node name="MaslowSection" type="PanelContainer" parent="MainScroll/TavernContainer/MainVBox"]
+visible = false
 layout_mode = 2
 
 [node name="MaslowVBox" type="VBoxContainer" parent="MainScroll/TavernContainer/MainVBox/MaslowSection"]
@@ -193,6 +194,10 @@ size_flags_horizontal = 10
 text = "Locked"
 horizontal_alignment = 2
 
+[node name="Spacer" type="Control" parent="MainScroll/TavernContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
 [node name="FeedbackSection" type="PanelContainer" parent="MainScroll/TavernContainer/MainVBox"]
 layout_mode = 2
 
@@ -222,17 +227,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Join Discord"
 
-[node name="TopNavigationBar" type="HBoxContainer" parent="MainScroll/TavernContainer/MainVBox"]
+[node name="Spacer2" type="Control" parent="MainScroll/TavernContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="TopTavernButton" type="Button" parent="MainScroll/TavernContainer/MainVBox/TopNavigationBar"]
+[node name="BottomNavigationBar" type="HBoxContainer" parent="MainScroll/TavernContainer/MainVBox"]
+layout_mode = 2
+
+[node name="BottomTavernButton" type="Button" parent="MainScroll/TavernContainer/MainVBox/BottomNavigationBar"]
 custom_minimum_size = Vector2(140, 50)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "ð° Tavern"
+text = "Tavern"
 
-[node name="TopProfileButton" type="Button" parent="MainScroll/TavernContainer/MainVBox/TopNavigationBar"]
+[node name="BottomProfileButton" type="Button" parent="MainScroll/TavernContainer/MainVBox/BottomNavigationBar"]
 custom_minimum_size = Vector2(140, 50)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "ð¤ Profile"
+text = "Profile"
