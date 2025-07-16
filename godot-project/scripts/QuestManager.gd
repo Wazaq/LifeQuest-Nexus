@@ -53,6 +53,9 @@ func _ready():
 	APIManager.profile_updated.connect(_on_profile_updated)
 	APIManager.api_error.connect(_on_api_error)
 	
+	# Load any saved quest state
+	load_quest_state()
+	
 	# Initialize user profile
 	refresh_profile()
 
@@ -111,6 +114,9 @@ func generate_local_quest(preferred_category: QuestCategory = QuestCategory.PHYS
 	
 	print("✨ Local quest generated: ", quest_data["title"])
 	current_quest = quest_data
+	
+	# Save quest state to persist between sessions
+	save_quest_state()
 	
 	var formatted_quest = format_quest_for_display(quest_data)
 	emit_signal("quest_available", formatted_quest)
@@ -411,6 +417,9 @@ func _on_quest_generated(quest_data: Dictionary):
 	print("🎯 New quest generated: ", quest_data.get("title", "Unknown"))
 	current_quest = quest_data
 	
+	# Save quest state to persist between sessions
+	save_quest_state()
+	
 	var formatted_quest = format_quest_for_display(quest_data)
 	emit_signal("quest_available", formatted_quest)
 
@@ -419,6 +428,9 @@ func _on_quest_completed(completion_data: Dictionary):
 	
 	# Clear current quest
 	current_quest = {}
+	
+	# Clear saved quest state
+	clear_quest_save()
 	
 	# Emit completion signal with rewards info
 	emit_signal("quest_completed_successfully", completion_data)
@@ -482,3 +494,78 @@ func debug_test_difficulty_scaling():
 		print("  Next unlock at level: ", progression.next_unlock_level)
 	
 	print("================================\n")
+
+# Quest Persistence System - Save/Load quest state between sessions
+func save_quest_state():
+	"""Save current quest to local storage"""
+	var save_file_path = "user://lifequest_quest.save"
+	var file = FileAccess.open(save_file_path, FileAccess.WRITE)
+	
+	if file:
+		var save_data = {
+			"current_quest": current_quest,
+			"saved_at": Time.get_datetime_string_from_system(),
+			"version": "1.0"
+		}
+		file.store_string(JSON.stringify(save_data))
+		file.close()
+		print("💾 Quest state saved")
+		return true
+	else:
+		print("❌ Failed to save quest state")
+		return false
+
+func load_quest_state():
+	"""Load quest state from local storage"""
+	var save_file_path = "user://lifequest_quest.save"
+	
+	if not FileAccess.file_exists(save_file_path):
+		print("📂 No saved quest found")
+		return false
+		
+	var file = FileAccess.open(save_file_path, FileAccess.READ)
+	if not file:
+		print("❌ Failed to open quest save file")
+		return false
+		
+	var saved_data = file.get_as_text()
+	file.close()
+	
+	var json = JSON.new()
+	var parse_result = json.parse(saved_data)
+	
+	if parse_result != OK:
+		print("❌ Invalid quest save file format")
+		clear_quest_save()
+		return false
+		
+	var data = json.data
+	if not data.has("current_quest"):
+		print("❌ Corrupted quest save file")
+		clear_quest_save()
+		return false
+		
+	# Restore quest state
+	current_quest = data.current_quest
+	
+	if not current_quest.is_empty():
+		print("📖 Quest restored: ", current_quest.get("title", "Unknown"))
+		return true
+	else:
+		print("📂 No active quest in save file")
+		return false
+
+func clear_quest_save():
+	"""Remove quest save file"""
+	var save_file_path = "user://lifequest_quest.save"
+	
+	if FileAccess.file_exists(save_file_path):
+		DirAccess.remove_absolute(save_file_path)
+		print("🗑️ Quest save file cleared")
+		return true
+	return false
+
+func has_valid_saved_quest() -> bool:
+	"""Check if there's a valid saved quest without loading it"""
+	var save_file_path = "user://lifequest_quest.save"
+	return FileAccess.file_exists(save_file_path)
