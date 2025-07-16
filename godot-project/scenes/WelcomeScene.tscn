@@ -70,13 +70,13 @@ custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 text = "Welcome to the tavern, brave adventurer! Here's how your journey works:
 
-🎯 Visit Dorin in the tavern to receive your next quest - he'll choose one perfectly suited to your current level and growth.
+*  Visit Dorin in the tavern to receive your next quest - he'll choose one perfectly suited to your current level and growth.
 
-⚔️ Complete quests in real life to earn XP and level up your character. The honor system means you mark your own progress.
+*  Complete quests in real life to earn XP and level up your character. The honor system means you mark your own progress.
 
-🏆 Progress through five realms based on your psychological growth: Foundation, Safety, Connection, Recognition, and Actualization.
+*  Progress through five realms based on your psychological growth: Foundation, Safety, Connection, Recognition, and Actualization.
 
-🎮 Each completed quest brings you closer to becoming the hero of your own life story. Ready to begin your adventure?"
+*   Each completed quest brings you closer to becoming the hero of your own life story. Ready to begin your adventure?"
 autowrap_mode = 3
 
 [node name="FeaturesPanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
@@ -85,13 +85,13 @@ layout_mode = 2
 [node name="FeaturesText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/FeaturesPanel"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
-text = "🎉 Latest Features:
+text = "***  Latest Features ***
 
-✨ Beautiful tavern interface with Dorin your friendly tavern keeper
-🎯 Smart quest system that matches your current level and growth
-⚔️ Five progression realms based on psychological development
-🏆 Real-world achievement tracking with XP and leveling
-📱 Mobile-optimized design that works anywhere
+*   Beautiful tavern interface with Dorin your friendly tavern keeper
+*   Smart quest system that matches your current level and growth
+*   Five progression realms based on psychological development
+*   Real-world achievement tracking with XP and leveling
+*   Mobile-optimized design that works anywhere
 
 Ready to transform your daily life into an epic adventure?"
 autowrap_mode = 3
