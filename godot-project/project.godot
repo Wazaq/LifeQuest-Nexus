@@ -12,6 +12,7 @@ config_version=5
 
 config/name="LifeQuest"
 config/description="Life Gamification RPG - Transform daily tasks into epic quests"
+config/version="1.0.0"
 run/main_scene="uid://djmbv5s7qcnlt"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"

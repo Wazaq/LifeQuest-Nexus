@@ -8,7 +8,6 @@ dist/
 godot-project/addons/
 godot-project/.godot/
 godot-project/.import/
-godot-project/export_presets.cfg
 
 # OS files
 .DS_Store

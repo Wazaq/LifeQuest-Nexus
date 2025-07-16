@@ -21,8 +21,6 @@ var _quest_timeout_timer: Timer = null
 # Note: Removed unused signals and variables to clean up warnings
 
 func _ready():
-	print("🏰 Tavern Main initialized")
-	
 	setup_tavern_styling()
 	connect_quest_system()
 	update_user_interface()
@@ -36,9 +34,6 @@ func connect_quest_system():
 	# Connect generate quest button
 	if generate_quest_button:
 		generate_quest_button.pressed.connect(_on_generate_quest_pressed)
-		print("✅ Generate Quest button connected")
-	else:
-		print("❌ Generate Quest button not found!")
 	
 	# Connect feedback buttons
 	var feedback_button = $MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox/ButtonsHBox/FeedbackFormButton
@@ -46,11 +41,9 @@ func connect_quest_system():
 	
 	if feedback_button:
 		feedback_button.pressed.connect(_on_feedback_button_pressed)
-		print("✅ Feedback button connected")
 	
 	if discord_button:
 		discord_button.pressed.connect(_on_discord_button_pressed)
-		print("✅ Discord button connected")
 	
 	# Connect to QuestManager signals
 	if QuestManager:
@@ -58,9 +51,6 @@ func connect_quest_system():
 		QuestManager.quest_completed_successfully.connect(_on_quest_completed)
 		QuestManager.profile_refreshed.connect(_on_profile_refreshed)
 		QuestManager.no_quests_available.connect(_on_no_quests_available)
-		print("✅ QuestManager signals connected")
-	else:
-		print("❌ QuestManager not found!")
 
 func update_user_interface():
 	"""Update the UI with current user data"""
@@ -222,45 +212,37 @@ func create_quest_ui(quest_data: Dictionary):
 
 func _on_complete_quest_pressed():
 	"""Handle complete quest button press"""
-	print("✅ Complete Quest button pressed!")
 	
 	# Complete the current quest
 	var success = QuestManager.complete_current_quest()
-	if success:
-		print("🎉 Quest completion initiated!")
-	else:
-		print("❌ Failed to complete quest")
+	# Quest completion handled by QuestManager
 
 func _on_feedback_button_pressed():
 	"""Handle feedback form button press"""
-	print("📝 Opening feedback form...")
 	OS.shell_open("https://forms.gle/tpgCUKuEh9aTbk9x9")
 
 func _on_discord_button_pressed():
 	"""Handle Discord button press"""
-	print("💬 Opening Discord...")
 	OS.shell_open("https://discord.gg/zxy7EduTYA")
 
 func show_temporary_message(message: String):
 	"""Show a temporary message to the user"""
 	# This could be enhanced with a proper notification system
-	print("📢 User Message: ", message)
+	# Could show toast notification here
 
 # Button Event Handlers
 func _on_generate_quest_pressed():
 	"""Handle generate quest button press"""
-	print("🎲 Generate Quest button pressed!")
 	
 	# Check if user already has an active quest
 	if QuestManager.has_active_quest():
-		print("⚠️ User already has an active quest!")
 		show_temporary_message("Complete your current quest before generating a new one!")
 		return
 	
 	# Disable button temporarily to prevent spam
 	if generate_quest_button:
 		generate_quest_button.disabled = true
-		generate_quest_button.text = "Generating..."
+		generate_quest_button.text = "⚡ Generating Quest..."
 	
 	# Set up timeout timer for quest generation
 	cleanup_quest_timer()  # Clean up any existing timer
@@ -271,7 +253,6 @@ func _on_generate_quest_pressed():
 	add_child(_quest_timeout_timer)
 	_quest_timeout_timer.start()
 	
-	print("🌐 Trying API quest generation...")
 	QuestManager.get_new_quest_api_first()
 	
 	# Request new quest from QuestManager
@@ -306,7 +287,6 @@ func _on_quest_timeout():
 func _on_quest_available(quest_data: Dictionary):
 	"""Handle new quest generated"""
 	cleanup_quest_timer()
-	print("🎯 New quest available: ", quest_data.get("title", "Unknown"))
 	
 	# Store quest data
 	active_quest_data = quest_data
@@ -314,7 +294,11 @@ func _on_quest_available(quest_data: Dictionary):
 	# Re-enable generate button
 	if generate_quest_button:
 		generate_quest_button.disabled = false
-		generate_quest_button.text = "Generate New Quest"
+		generate_quest_button.text = "✨ Quest Ready!"
+		# Reset button text after a moment
+		await get_tree().create_timer(2.0).timeout
+		if generate_quest_button:
+			generate_quest_button.text = "Generate New Quest"
 	
 	# Clear any existing quest displays first
 	clear_quest_display()
@@ -327,7 +311,6 @@ func _on_quest_available(quest_data: Dictionary):
 
 func _on_quest_completed(completion_data: Dictionary):
 	"""Handle quest completion"""
-	print("🏆 Quest completed! XP gained: ", completion_data.get("xp_gained", 0))
 	
 	# Clear active quest
 	active_quest_data = {}
@@ -344,7 +327,6 @@ func _on_quest_completed(completion_data: Dictionary):
 
 func _on_profile_refreshed(profile_data: Dictionary):
 	"""Handle profile data update"""
-	print("👤 Profile refreshed - Level: ", profile_data.get("current_level", 1))
 	
 	# Update character stats display
 	update_user_interface()

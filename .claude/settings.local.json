@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__AI_Library__ai_lib_get_context",
+      "mcp__AI_Library__ai_lib_navigate",
+      "Bash(for:*)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(grep:*)",
+      "Bash(echo)",
+      "Bash(done)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "mcp__AI_Library__ai_lib_recent_achievements",
+      "mcp__AI_Library__ai_lib_active_projects",
+      "mcp__AI_Library__ai_lib_technical_insight"
+    ],
+    "deny": []
+  }
+}

@@ -75,25 +75,38 @@ func connect_buttons():
 
 func load_user_profile():
 	"""Load and display current user profile"""
-	print("Loading user profile...")
+	# Show loading state
+	show_loading_state()
 	
 	# Display current user ID
 	if APIManager:
 		var user_id = APIManager.current_user_id
 		if user_id != "":
 			if user_id_value_label:
-				# Truncate long user IDs for display
-				var display_id = user_id
-				if display_id.length() > 20:
-					display_id = display_id.left(17) + "..."
-				user_id_value_label.text = display_id
+				user_id_value_label.text = "Adventurer"
 		else:
 			if user_id_value_label:
-				user_id_value_label.text = "No user session"
+				user_id_value_label.text = "No Character"
 	
 	# Request profile data from API
 	if APIManager:
 		APIManager.get_user_profile()
+
+func show_loading_state():
+	"""Show loading feedback to user"""
+	# Update character stats with loading indicators
+	if level_value_label:
+		level_value_label.text = "..."
+	if xp_value_label:
+		xp_value_label.text = "..."
+	if xp_progress_bar:
+		xp_progress_bar.value = 0
+	
+	# Update Maslow progress with loading indicators
+	if physio_status:
+		physio_status.text = "Loading..."
+	if safety_status:
+		safety_status.text = "Loading..."
 
 func _on_profile_updated(profile_data: Dictionary):
 	"""Handle profile data update from API"""
@@ -105,12 +118,9 @@ func _on_user_created(user_data: Dictionary):
 	"""Handle new user creation"""
 	print("ð New user created: ", user_data.get("user_id", "unknown"))
 	
-	# Update user ID display
+	# Update user display
 	if user_id_value_label:
-		var user_id = user_data.get("user_id", "")
-		if user_id.length() > 20:
-			user_id = user_id.left(17) + "..."
-		user_id_value_label.text = user_id
+		user_id_value_label.text = "Adventurer"
 	
 	# Show creation success message
 	show_temporary_message("New user created successfully!")

@@ -7,6 +7,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 720.0
 offset_bottom = 960.0
+size_flags_horizontal = 4
 script = ExtResource("1_r7phi")
 
 [node name="MainScroll" type="ScrollContainer" parent="."]
@@ -37,7 +38,7 @@ horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/HeaderSection"]
 layout_mode = 2
-text = "Alpha Testing Guide"
+text = "Begin Your Adventure"
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox"]
@@ -45,7 +46,6 @@ custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
 [node name="GameExplanationPanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
-visible = false
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_vertical = 3
@@ -62,29 +62,38 @@ The app suggests tasks that match your current level, so you're never overwhelme
 No complicated systems or psychology lectures - just you, making progress, one quest at a time."
 autowrap_mode = 3
 
-[node name="AlphaExplanationPanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
-visible = false
+[node name="GameGuidePanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
 layout_mode = 2
 
-[node name="AlphaText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/AlphaExplanationPanel"]
+[node name="GameGuideText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/GameGuidePanel"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
-text = "You're testing an early version of LifeQuest - things might be rough around the edges, and some features are still being built.
+text = "Welcome to the tavern, brave adventurer! Here's how your journey works:
 
-What works: Quest generation, XP tracking, basic progression. What might break: Some buttons, occasional loading issues, maybe a crash here and there.
+🎯 Visit Dorin in the tavern to receive your next quest - he'll choose one perfectly suited to your current level and growth.
 
-Your feedback shapes what gets built next. Found a bug? Great! Wish something worked differently? Tell us! The whole point of alpha testing is finding problems before anyone else sees them.
+⚔️ Complete quests in real life to earn XP and level up your character. The honor system means you mark your own progress.
 
-Thanks for being brave enough to test unfinished software. Your patience and input make LifeQuest better for everyone."
+🏆 Progress through five realms based on your psychological growth: Foundation, Safety, Connection, Recognition, and Actualization.
+
+🎮 Each completed quest brings you closer to becoming the hero of your own life story. Ready to begin your adventure?"
 autowrap_mode = 3
 
-[node name="PatchNotesPanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
+[node name="FeaturesPanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
 layout_mode = 2
 
-[node name="PatchText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/PatchNotesPanel"]
+[node name="FeaturesText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/FeaturesPanel"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
-text = "Filler text for patch notes"
+text = "🎉 Latest Features:
+
+✨ Beautiful tavern interface with Dorin your friendly tavern keeper
+🎯 Smart quest system that matches your current level and growth
+⚔️ Five progression realms based on psychological development
+🏆 Real-world achievement tracking with XP and leveling
+📱 Mobile-optimized design that works anywhere
+
+Ready to transform your daily life into an epic adventure?"
 autowrap_mode = 3
 
 [node name="Spacer2" type="Control" parent="MainScroll/WelcomeContainer/MainVBox"]

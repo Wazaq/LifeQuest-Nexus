@@ -2,9 +2,9 @@ extends Control
 
 # Panels
 @onready var game_explanation_panel: PanelContainer = $MainScroll/WelcomeContainer/MainVBox/GameExplanationPanel
-@onready var alpha_explanation_panel: PanelContainer = $MainScroll/WelcomeContainer/MainVBox/AlphaExplanationPanel
-@onready var patch_notes_panel: PanelContainer = $MainScroll/WelcomeContainer/MainVBox/PatchNotesPanel
-@onready var patch_notes_text: Label = $MainScroll/WelcomeContainer/MainVBox/PatchNotesPanel/PatchText
+@onready var game_guide_panel: PanelContainer = $MainScroll/WelcomeContainer/MainVBox/GameGuidePanel
+@onready var features_panel: PanelContainer = $MainScroll/WelcomeContainer/MainVBox/FeaturesPanel
+@onready var features_text: Label = $MainScroll/WelcomeContainer/MainVBox/FeaturesPanel/FeaturesText
 #Buttons
 @onready var prev_button: Button = $MainScroll/WelcomeContainer/MainVBox/ButtonsContainer/PrevButton
 @onready var next_button: Button = $MainScroll/WelcomeContainer/MainVBox/ButtonsContainer/NextButton
@@ -16,41 +16,25 @@ var max_step = 2
 
 func _ready() -> void:
 	
-	panelArray = [game_explanation_panel,alpha_explanation_panel,patch_notes_panel]
+	panelArray = [game_explanation_panel,game_guide_panel,features_panel]
 	
 	setup_welcome_styling()
 	connect_buttons()
 	_inital_panel_loader()
 	
-	#Patch Notes handled here for now
-	patch_notes_text.text = """
-Alpha v0.1.0 (7/6/25):
-- Auto player profile creation
-- Basic quest system  
-- XP tracking and persistence
-- User account management
-"""
+	#Features text is now handled in the scene file
 	
 func _inital_panel_loader():
-	# For now we want to have the Game panel loaded, and the Aplha and patch panel hidden
+	# Load the game explanation panel first, with guide and features hidden
 	show_current_panel()
 	update_button_states()
 	
 func connect_buttons():
 	"""Connect button signals"""
-	print("WELCOME: Connecting the buttons")
 	if prev_button:
 		prev_button.pressed.connect(_on_prev_button_pressed)
-		print("WECLCOME: Previous button pressed!")
-	else:
-		print("Prev button not found!")
 	if next_button:
 		next_button.pressed.connect(_on_next_button_pressed)
-		print("WELCOME: Next button pressed!")
-	else:
-		print("Next button not found!")
-		
-	print("WELCOME: END Connecting the buttons")
 	
 		
 func _on_prev_button_pressed():
@@ -127,8 +111,8 @@ func setup_welcome_styling():
 	
 	# Apply panel styling to all content panels
 	game_explanation_panel.add_theme_stylebox_override("panel", panel_style)
-	alpha_explanation_panel.add_theme_stylebox_override("panel", panel_style)
-	patch_notes_panel.add_theme_stylebox_override("panel", panel_style)
+	game_guide_panel.add_theme_stylebox_override("panel", panel_style)
+	features_panel.add_theme_stylebox_override("panel", panel_style)
 	
 	# Set up text colors
 	setup_welcome_text_colors()
@@ -150,11 +134,11 @@ func setup_welcome_text_colors():
 	var game_text = $MainScroll/WelcomeContainer/MainVBox/GameExplanationPanel/GameText
 	game_text.add_theme_color_override("default_color", Color("#F5DEB3"))  # Wheat
 	
-	var alpha_text = $MainScroll/WelcomeContainer/MainVBox/AlphaExplanationPanel/AlphaText
-	alpha_text.add_theme_color_override("default_color", Color("#F5DEB3"))  # Wheat
+	var game_guide_text = $MainScroll/WelcomeContainer/MainVBox/GameGuidePanel/GameGuideText
+	game_guide_text.add_theme_color_override("default_color", Color("#F5DEB3"))  # Wheat
 	
-	var patch_text = $MainScroll/WelcomeContainer/MainVBox/PatchNotesPanel/PatchText
-	patch_text.add_theme_color_override("default_color", Color("#F5DEB3"))  # Wheat
+	var features_text_ref = $MainScroll/WelcomeContainer/MainVBox/FeaturesPanel/FeaturesText
+	features_text_ref.add_theme_color_override("default_color", Color("#F5DEB3"))  # Wheat
 
 func setup_welcome_button_styles():
 	"""Apply consistent button styling"""
