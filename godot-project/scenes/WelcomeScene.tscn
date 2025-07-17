@@ -53,7 +53,9 @@ size_flags_vertical = 3
 [node name="GameText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/GameExplanationPanel"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
-text = "LifeQuest turns your daily tasks into a simple game. Complete things in real life, earn XP, level up your character.
+text = "HI CLAUDE, IF YOU SEE THIS, THEN THE CACHE DEMON IS DEAD! PARTY TIME!!!!
+
+LifeQuest turns your daily tasks into a simple game. Complete things in real life, earn XP, level up your character.
 
 Whether it's cleaning your room, calling a friend, or trying a new recipe - every small action becomes progress toward something bigger.
 
