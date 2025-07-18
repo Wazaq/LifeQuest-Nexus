@@ -14,7 +14,9 @@
       "mcp__AI_Library__ai_lib_active_projects",
       "mcp__AI_Library__ai_lib_technical_insight",
       "Bash(/mnt/c/Users/Wazaq/Downloads/Godot_v4.1.2-stable_win64.exe/Godot_v4.1.2-stable_win64_console.exe --headless --export-release \"Web\" builds/web/index.html)",
-      "Bash(\"/mnt/c/Users/Wazaq/Documents/Godot/Godot_v4.4.1-stable_win64.exe/Godot_v4.4.1-stable_win64_console.exe\" --headless --export-release \"Web\" builds/web/index.html)"
+      "Bash(\"/mnt/c/Users/Wazaq/Documents/Godot/Godot_v4.4.1-stable_win64.exe/Godot_v4.4.1-stable_win64_console.exe\" --headless --export-release \"Web\" builds/web/index.html)",
+      "mcp__AI_Library__ai_lib_search",
+      "mcp__AI_Library__check_credit_balance"
     ],
     "deny": []
   }

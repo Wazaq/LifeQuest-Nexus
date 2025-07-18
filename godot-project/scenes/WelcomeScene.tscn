@@ -4,10 +4,11 @@
 
 [node name="Welcome Scene" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 720.0
-offset_bottom = 960.0
-size_flags_horizontal = 4
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_r7phi")
 
 [node name="MainScroll" type="ScrollContainer" parent="."]
@@ -19,8 +20,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="WelcomeContainer" type="PanelContainer" parent="MainScroll"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 6
 size_flags_vertical = 3
 
 [node name="MainVBox" type="VBoxContainer" parent="MainScroll/WelcomeContainer"]
@@ -53,9 +55,7 @@ size_flags_vertical = 3
 [node name="GameText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/GameExplanationPanel"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
-text = "SUP BITCHES!!!!
-
-LifeQuest turns your daily tasks into a simple game. Complete things in real life, earn XP, level up your character.
+text = "LifeQuest turns your daily tasks into a simple game. Complete things in real life, earn XP, level up your character.
 
 Whether it's cleaning your room, calling a friend, or trying a new recipe - every small action becomes progress toward something bigger.
 
