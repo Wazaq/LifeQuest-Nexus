@@ -9,3 +9,10 @@ database_id = "0f6dc70c-0606-4f4f-be3b-a63310e21e03"
 
 [vars]
 ENVIRONMENT = "development"
+
+# Google OAuth Configuration
+# These should be set as secrets in production: wrangler secret put GOOGLE_CLIENT_SECRET
+GOOGLE_CLIENT_ID = "993825102445-23lvqrs2qmv51hkc36f3bforrrhb17iv.apps.googleusercontent.com"
+# OAuth redirect URIs (update for your domains)
+OAUTH_REDIRECT_DEV = "http://localhost:8787/auth/google/callback"
+OAUTH_REDIRECT_PROD = "https://lifequest-api.wazaqglim.workers.dev/auth/google/callback"

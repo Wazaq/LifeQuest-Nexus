@@ -12,7 +12,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@cloudflare/workers-types": "^4.20240620.0"
+    "@cloudflare/workers-types": "^4.20240620.0",
+    "@tsndr/cloudflare-worker-jwt": "^2.5.1"
   },
   "devDependencies": {
     "typescript": "^5.5.0",

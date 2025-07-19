@@ -66,25 +66,13 @@ Based on post-Netlify migration analysis, these are the critical issues to addre
 - Visual/guided onboarding experience
 - Progressive disclosure of features
 
-### 3. **UI Consistency & Presentation** (MEDIUM PRIORITY)
-**Problem**: Inconsistent screen layouts across app
-**Current Issues**:
-- Intro pages: Left-justified on wide screens
-- Tavern: Centered (correct)
-- Profile: Full-screen (inconsistent)
-**Goal**: Consistent, responsive layout system
-
-### 4. **Player Profile Enhancement** (MEDIUM PRIORITY)
+### 3. **Player Profile Enhancement** (MEDIUM PRIORITY)
 **Problem**: Profile screen is basic and unprofessional
 **Current**: Plain level/XP display with alpha controls
 **Goal**: Rich, engaging profile with meaningful progression display
 **Keep**: Reset and Refresh controls for testing
 
-### 5. **Background & Visual Polish** (LOW PRIORITY)
-**Problem**: Plain beige background when UI doesn't fill screen
-**Goal**: Cohesive visual design that looks professional on all screen sizes
-
-### 6. **SaaS Infrastructure Foundation** (ONGOING)
+### 4. **SaaS Infrastructure Foundation** (ONGOING)
 **Prepare**: User management, subscription models, analytics, professional deployment
 
 ---

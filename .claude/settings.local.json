@@ -17,7 +17,12 @@
       "Bash(\"/mnt/c/Users/Wazaq/Documents/Godot/Godot_v4.4.1-stable_win64.exe/Godot_v4.4.1-stable_win64_console.exe\" --headless --export-release \"Web\" builds/web/index.html)",
       "mcp__AI_Library__ai_lib_search",
       "mcp__AI_Library__check_credit_balance",
-      "mcp__AI_Library__ai_lib_autonomous_memory_update"
+      "mcp__AI_Library__ai_lib_autonomous_memory_update",
+      "Bash(npm run build:*)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(npx wrangler d1 execute:*)",
+      "mcp__AI_Library__spend_credits"
     ],
     "deny": []
   }

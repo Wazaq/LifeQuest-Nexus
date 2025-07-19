@@ -8,6 +8,16 @@ const API_BASE_URL = "https://lifequest-api.wazaqglim.workers.dev"
 
 # User session management
 var current_user_id: String = ""
+var jwt_token: String = ""
+var google_user_data: Dictionary = {}
+var is_authenticated: bool = false
+
+# Authentication modes
+enum AuthMode {
+	LEGACY_USER_ID,  # Original X-User-ID system
+	OAUTH_JWT        # New Google OAuth with JWT
+}
+var current_auth_mode: AuthMode = AuthMode.LEGACY_USER_ID
 
 # Signals for UI to listen to
 signal quest_generated(quest_data)
@@ -15,6 +25,10 @@ signal quest_completed(result)
 signal profile_updated(profile_data)
 signal api_error(error_message)
 signal user_created(user_data)
+signal oauth_login_ready(auth_url)
+signal oauth_login_success(user_data)
+signal oauth_login_failed(error_message)
+signal authentication_state_changed(is_authenticated)
 
 # HTTP request node
 var http_request: HTTPRequest
@@ -41,11 +55,11 @@ func initialize_user_session():
 	
 	if FileAccess.file_exists(save_file_path):
 		# Load existing user session
-		print("ð Found existing user session")
+		print("Found existing user session")
 		load_user_session(save_file_path)
 	else:
 		# Create new user
-		print("ð¤ Creating new user...")
+		print("Creating new user...")
 		create_new_user()
 
 func load_user_session(file_path: String):
@@ -60,7 +74,20 @@ func load_user_session(file_path: String):
 		
 		if parse_result == OK and json.data.has("user_id"):
 			current_user_id = json.data.user_id
-			print("Loaded user session: ", current_user_id)
+			
+			# Load OAuth data if available (new format)
+			if json.data.has("jwt_token"):
+				jwt_token = json.data.get("jwt_token", "")
+			if json.data.has("google_user_data"):
+				google_user_data = json.data.get("google_user_data", {})
+			if json.data.has("auth_mode"):
+				current_auth_mode = json.data.get("auth_mode", AuthMode.LEGACY_USER_ID)
+			
+			# Set authentication state
+			is_authenticated = (jwt_token != "" or current_user_id != "")
+			emit_signal("authentication_state_changed", is_authenticated)
+			
+			print("Loaded user session: ", current_user_id, " (", AuthMode.keys()[current_auth_mode], ")")
 			return true
 		else:
 			print("Invalid save file format")
@@ -77,11 +104,14 @@ func save_user_session():
 	if file:
 		var save_data = {
 			"user_id": current_user_id,
+			"jwt_token": jwt_token,
+			"google_user_data": google_user_data,
+			"auth_mode": current_auth_mode,
 			"saved_at": Time.get_datetime_string_from_system()
 		}
 		file.store_string(JSON.stringify(save_data))
 		file.close()
-		print("ð¾ User session saved")
+		print("User session saved")
 		return true
 	else:
 		print("Failed to save user session")
@@ -189,8 +219,10 @@ func _make_request(endpoint: String, method: HTTPClient.Method, data: Dictionary
 	var url = API_BASE_URL + endpoint
 	var headers = ["Content-Type: application/json"]
 	
-	# Add user authentication header (DISABLED - backend doesn't support yet)
-	if current_user_id != "":
+	# Add authentication header based on current mode
+	if current_auth_mode == AuthMode.OAUTH_JWT and jwt_token != "":
+		headers.append("Authorization: Bearer " + jwt_token)
+	elif current_auth_mode == AuthMode.LEGACY_USER_ID and current_user_id != "":
 		headers.append("X-User-ID: " + current_user_id)
 	
 	var body = ""
@@ -265,12 +297,12 @@ func _handle_successful_response(response_data: Dictionary):
 		
 	elif data.has("username") or data.has("current_level"):
 		# This is user profile data
-		print("ð¤ Profile updated - Level ", data.get("current_level", 1), ", XP: ", data.get("total_xp", 0))
+		print("Profile updated - Level ", data.get("current_level", 1), ", XP: ", data.get("total_xp", 0))
 		emit_signal("profile_updated", data)
 		
 	elif data.has("user_id") and data.has("created_at"):
 		# This is user creation response
-		print("ð¤ User created successfully: ", data.user_id)
+		print("User created successfully: ", data.user_id)
 		save_user_session()
 		emit_signal("user_created", data)
 		
@@ -278,9 +310,42 @@ func _handle_successful_response(response_data: Dictionary):
 		await get_tree().create_timer(1.0).timeout
 		get_user_profile()
 		
+	elif data.has("auth_url"):
+		# This is OAuth login initiation response
+		print("OAuth URL received")
+		emit_signal("oauth_login_ready", data.auth_url)
+		
+	elif data.has("token") and data.has("user"):
+		# This is OAuth login success response
+		print("OAuth login successful!")
+		jwt_token = data.token
+		google_user_data = data.user
+		current_user_id = data.user.get("id", "")
+		current_auth_mode = AuthMode.OAUTH_JWT
+		is_authenticated = true
+		
+		save_user_session()
+		emit_signal("oauth_login_success", google_user_data)
+		emit_signal("authentication_state_changed", true)
+		
+	elif data.has("valid") and data.get("valid") == true:
+		# This is JWT verification success
+		print("JWT token verified successfully")
+		is_authenticated = true
+		emit_signal("authentication_state_changed", true)
+		
+	elif data.has("valid") and data.get("valid") == false:
+		# This is JWT verification failure
+		print("JWT token expired or invalid")
+		jwt_token = ""
+		current_auth_mode = AuthMode.LEGACY_USER_ID
+		is_authenticated = false
+		save_user_session()
+		emit_signal("authentication_state_changed", false)
+		
 	else:
 		# Generic data response
-		print("ð Data received: ", data)
+		print("Data received: ", data)
 
 # Helper function to convert method enum to string
 func method_to_string(method: HTTPClient.Method) -> String:
@@ -293,7 +358,7 @@ func method_to_string(method: HTTPClient.Method) -> String:
 
 # Convenience function to test quest generation
 func test_quest_flow():
-	print("ð§ª Testing complete quest flow...")
+	print("Testing complete quest flow...")
 	await get_tree().create_timer(1.0).timeout
 	generate_quest()
 
@@ -308,5 +373,78 @@ func reset_user_session():
 		print("Deleted old user session")
 	
 	current_user_id = ""
+	jwt_token = ""
+	google_user_data = {}
+	current_auth_mode = AuthMode.LEGACY_USER_ID
+	is_authenticated = false
 	print("Current User ID has been cleared")
+	emit_signal("authentication_state_changed", false)
 	create_new_user()
+
+# OAuth Authentication Methods
+func initiate_google_oauth():
+	"""Start Google OAuth flow - gets authorization URL from API"""
+	print("Initiating Google OAuth flow...")
+	_make_oauth_request("/auth/google/login", HTTPClient.METHOD_GET)
+
+func handle_oauth_callback(code: String, state: String):
+	"""Handle OAuth callback with authorization code"""
+	print("Handling OAuth callback...")
+	var callback_url = "/auth/google/callback?code=" + code + "&state=" + state
+	_make_oauth_request(callback_url, HTTPClient.METHOD_GET)
+
+func verify_jwt_token():
+	"""Verify stored JWT token is still valid"""
+	if jwt_token == "":
+		print("No JWT token to verify")
+		return false
+	print("Verifying JWT token...")
+	_make_oauth_request("/auth/verify", HTTPClient.METHOD_POST)
+
+func logout_oauth():
+	"""Logout from OAuth session and clear tokens"""
+	print("Logging out from OAuth session...")
+	if jwt_token != "":
+		_make_oauth_request("/auth/logout", HTTPClient.METHOD_POST)
+	
+	# Clear OAuth data immediately
+	jwt_token = ""
+	google_user_data = {}
+	current_auth_mode = AuthMode.LEGACY_USER_ID
+	is_authenticated = false
+	save_user_session()
+	emit_signal("authentication_state_changed", false)
+
+func check_authentication_status():
+	"""Check current authentication state and validate if needed"""
+	if current_auth_mode == AuthMode.OAUTH_JWT and jwt_token != "":
+		verify_jwt_token()
+	elif current_auth_mode == AuthMode.LEGACY_USER_ID and current_user_id != "":
+		is_authenticated = true
+		emit_signal("authentication_state_changed", true)
+	else:
+		is_authenticated = false
+		emit_signal("authentication_state_changed", false)
+
+# OAuth-specific request handler
+func _make_oauth_request(endpoint: String, method: HTTPClient.Method, data: Dictionary = {}):
+	"""Make OAuth-specific API requests with proper authentication headers"""
+	var url = API_BASE_URL + endpoint
+	var headers = ["Content-Type: application/json"]
+	
+	# Add JWT Bearer token if available
+	if jwt_token != "":
+		headers.append("Authorization: Bearer " + jwt_token)
+	
+	var body = ""
+	if data.size() > 0:
+		body = JSON.stringify(data)
+	
+	print("OAuth Request: ", method_to_string(method), " ", endpoint)
+	if jwt_token != "":
+		print("Using JWT authentication")
+	
+	var error = http_request.request(url, headers, method, body)
+	if error != OK:
+		print("OAuth request failed with error: ", error)
+		emit_signal("oauth_login_failed", "Failed to make request: " + str(error))
