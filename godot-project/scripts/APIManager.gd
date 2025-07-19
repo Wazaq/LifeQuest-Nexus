@@ -42,8 +42,85 @@ func _ready():
 	print("LifeQuest API Manager initialized")
 	print("API Base URL: ", API_BASE_URL)
 	
+	# Check for OAuth callback parameters first
+	check_oauth_callback_parameters()
+	
 	# Initialize user session
 	initialize_user_session()
+
+# Check for OAuth callback parameters in URL
+func check_oauth_callback_parameters():
+	"""Check if the app was loaded with OAuth callback parameters"""
+	# In Godot web builds, we can access URL parameters via JavaScript
+	if OS.has_feature("web"):
+		var js_code = """
+		(function() {
+			var urlParams = new URLSearchParams(window.location.search);
+			var result = {};
+			
+			if (urlParams.has('auth_success')) {
+				result.auth_success = urlParams.get('auth_success') === 'true';
+			}
+			if (urlParams.has('token')) {
+				result.token = urlParams.get('token');
+			}
+			if (urlParams.has('user_id')) {
+				result.user_id = urlParams.get('user_id');
+			}
+			if (urlParams.has('auth_error')) {
+				result.auth_error = urlParams.get('auth_error');
+			}
+			
+			// Clear the URL parameters
+			if (Object.keys(result).length > 0) {
+				window.history.replaceState({}, document.title, window.location.pathname);
+			}
+			
+			return JSON.stringify(result);
+		})()
+		"""
+		
+		var result = JavaScriptBridge.eval(js_code)
+		if result and result != "{}":
+			var json = JSON.new()
+			var parse_result = json.parse(result)
+			
+			if parse_result == OK:
+				var params = json.data
+				handle_oauth_callback_result(params)
+
+func handle_oauth_callback_result(params: Dictionary):
+	"""Handle OAuth callback results from URL parameters"""
+	print("OAuth callback parameters detected: ", params)
+	
+	if params.has("auth_error"):
+		var error = params.auth_error
+		print("OAuth error: ", error)
+		emit_signal("oauth_login_failed", "Authentication failed: " + error)
+		return
+	
+	if params.has("auth_success") and params.auth_success and params.has("token"):
+		print("OAuth success! Processing token...")
+		
+		# Store the OAuth data
+		jwt_token = params.token
+		current_user_id = params.get("user_id", "")
+		current_auth_mode = AuthMode.OAUTH_JWT
+		is_authenticated = true
+		
+		# We'll get the full Google user data when we verify the token
+		google_user_data = {}
+		
+		# Save session and verify token
+		save_user_session()
+		
+		# Verify the token to get user data
+		verify_jwt_token()
+		
+		emit_signal("oauth_login_success", google_user_data)
+		emit_signal("authentication_state_changed", true)
+		
+		print("OAuth login completed successfully!")
 
 # User Session Management
 func initialize_user_session():

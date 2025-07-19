@@ -48,7 +48,7 @@ Neural Nexus Remote MCP:check_credit_balance  // Check available credits for eff
 
 Based on post-Netlify migration analysis, these are the critical issues to address:
 
-### 1. **User Authentication & Persistence** (HIGH PRIORITY)
+### 1. **User Authentication & Persistence** (COMPLETE WITH ERROR)
 **Problem**: Every app open shows welcome screen, even for existing players
 **Current**: Browser-tied profiles with no cross-device sync
 **Goal**: Persistent user accounts across devices with social login (Google/Discord)
@@ -56,6 +56,8 @@ Based on post-Netlify migration analysis, these are the critical issues to addre
 - Implement user authentication system (avoid username/password if possible)
 - Cross-device profile synchronization
 - Existing user detection and routing
+
+ERROR WITH USER AUTH:  When deployed to production, and tyring the sign in with google via the webiste, after the auth process it still re-directs to the localhost address and not the correct URL... is it because the wrangler file has "ENVIRONMENT = "development""  how does those setting work for different environments?
 
 ### 2. **Onboarding Experience Overhaul** (HIGH PRIORITY)  
 **Problem**: Static text boxes for tutorial - nobody reads walls of text

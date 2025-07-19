@@ -30,6 +30,7 @@ export interface Env {
   JWT_SECRET: string;
   OAUTH_REDIRECT_DEV: string;
   OAUTH_REDIRECT_PROD: string;
+  FRONTEND_URL: string;
 }
 
 export default {
@@ -94,7 +95,9 @@ export default {
           const state = url.searchParams.get('state');
           
           if (!code) {
-            return createErrorResponse('Missing authorization code', 400);
+            // Redirect to app with error
+            const errorUrl = `${env.FRONTEND_URL}?auth_error=missing_code`;
+            return Response.redirect(errorUrl, 302);
           }
           
           try {
@@ -117,19 +120,15 @@ export default {
             const ipAddress = request.headers.get('cf-connecting-ip') || undefined;
             await storeSession(env.DB, userId, token, userAgent, ipAddress);
             
-            return createResponse({
-              token,
-              user: {
-                id: userId,
-                email: googleData.email,
-                name: googleData.name,
-                avatar: googleData.picture
-              }
-            }, 'Authentication successful');
+            // Redirect back to frontend app with token
+            const successUrl = `${env.FRONTEND_URL}?auth_success=true&token=${encodeURIComponent(token)}&user_id=${encodeURIComponent(userId)}`;
+            return Response.redirect(successUrl, 302);
             
           } catch (error) {
             console.error('OAuth callback error:', error);
-            return createErrorResponse('Authentication failed', 400);
+            // Redirect to app with error
+            const errorUrl = `${env.FRONTEND_URL}?auth_error=auth_failed`;
+            return Response.redirect(errorUrl, 302);
           }
         }
         
