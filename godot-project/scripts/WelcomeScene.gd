@@ -300,6 +300,7 @@ func _on_google_login_pressed():
 
 func _on_skip_login_pressed():
 	"""Handle skip login button press"""
+	APIManager.create_guest_user();
 	print("Continuing as guest...")
 	hide_oauth_ui()
 	# Continue with normal flow

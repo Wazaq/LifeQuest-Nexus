@@ -174,8 +174,14 @@ func load_user_session(file_path: String):
 		else:
 			print("Invalid save file format")
 	
-	# Fallback to creating new user
-	create_new_user()
+	# Don't create new user - just clear session and wait for user choice
+	print("Could not load valid user session - waiting for login choice")
+	current_user_id = ""
+	jwt_token = ""
+	google_user_data = {}
+	current_auth_mode = AuthMode.LEGACY_USER_ID
+	is_authenticated = false
+	emit_signal("authentication_state_changed", false)
 	return false
 
 func save_user_session():
