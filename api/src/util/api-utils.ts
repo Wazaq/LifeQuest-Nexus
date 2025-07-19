@@ -303,7 +303,7 @@ export async function createOrLinkGoogleUser(db: D1Database, googleData: GoogleU
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).bind(
     userId,
-    googleData.email, // Use email as username for Google users
+    googleData.name, // Use Google name as username
     googleData.id,
     googleData.email,
     googleData.name,

@@ -124,7 +124,7 @@ func handle_oauth_callback_result(params: Dictionary):
 
 # User Session Management
 func initialize_user_session():
-	"""Load existing user session or create new user"""
+	"""Load existing user session - don't create new user automatically"""
 	print("Initializing user session...")
 	
 	# Try to load saved user ID from local storage (Godot equivalent)
@@ -135,9 +135,14 @@ func initialize_user_session():
 		print("Found existing user session")
 		load_user_session(save_file_path)
 	else:
-		# Create new user
-		print("Creating new user...")
-		create_new_user()
+		# No saved session - wait for user to choose login method
+		print("No saved session found - waiting for user login choice")
+		current_user_id = ""
+		jwt_token = ""
+		google_user_data = {}
+		current_auth_mode = AuthMode.LEGACY_USER_ID
+		is_authenticated = false
+		emit_signal("authentication_state_changed", false)
 
 func load_user_session(file_path: String):
 	"""Load user ID from saved file"""
@@ -194,6 +199,11 @@ func save_user_session():
 		print("Failed to save user session")
 		return false
 
+func create_guest_user():
+	"""Called when user explicitly chooses 'Continue as Guest'"""
+	print("User chose 'Continue as Guest' - creating anonymous user...")
+	create_new_user()
+
 func create_new_user():
 	"""Generate new unique user ID and create user via API"""
 	# Generate unique user ID
@@ -202,9 +212,12 @@ func create_new_user():
 	
 	# TEMPORARY: Skip API user creation (backend doesn't support it yet)
 	print("TEMP: Using existing backend user system")
+	current_auth_mode = AuthMode.LEGACY_USER_ID
+	is_authenticated = true
 	save_user_session()
+	emit_signal("authentication_state_changed", true)
 	
-	# Auto-fetch profile to initialize user
+	# Auto-fetch profile to initialize user (only when explicitly creating guest user)
 	await get_tree().create_timer(1.0).timeout
 	get_user_profile()
 
