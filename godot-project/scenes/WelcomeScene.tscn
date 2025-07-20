@@ -53,7 +53,8 @@ size_flags_horizontal = 4
 
 [node name="LoginText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/LoginSection"]
 layout_mode = 2
-text = "Begin your epic adventure"
+text = "Begin your epic adventure
+v. 001"
 horizontal_alignment = 1
 
 [node name="ButtonSpacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox/LoginSection"]
