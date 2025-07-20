@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@netlify/functions": "^4.1.12"
+  }
+}

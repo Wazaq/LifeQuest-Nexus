@@ -24,3 +24,6 @@ Thumbs.db
 *.zip
 builds/
 !godot-project/builds/web/
+
+# Local Netlify folder
+.netlify
