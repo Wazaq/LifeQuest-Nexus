@@ -6,7 +6,15 @@
 
 # Cache control headers for PWA files
 [[headers]]
-  # Main HTML file - never cache, always get fresh version
+  # Main HTML file - served as root path
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+[[headers]]
+  # Also target index.html directly just in case
   for = "/index.html"
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"

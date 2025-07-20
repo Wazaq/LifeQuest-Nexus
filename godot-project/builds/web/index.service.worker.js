@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1753033273|19415087956';
+const CACHE_VERSION = '1753037208|23349579231';
 /** @type {string} */
 const CACHE_PREFIX = 'LifeQuest-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
