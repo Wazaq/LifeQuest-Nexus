@@ -13,11 +13,12 @@
   },
   "dependencies": {
     "@cloudflare/workers-types": "^4.20240620.0",
+    "@netlify/functions": "^4.1.12",
     "@tsndr/cloudflare-worker-jwt": "^2.5.1"
   },
   "devDependencies": {
     "typescript": "^5.5.0",
-    "vitest": "^1.6.0",
+    "vitest": "^3.2.4",
     "wrangler": "^4.20.5"
   },
   "keywords": [

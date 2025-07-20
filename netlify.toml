@@ -3,6 +3,7 @@
 
 [build]
   publish = "godot-project/builds/web"
+  functions = "api/netlify/functions"
 
 # Cache control headers for PWA files
 [[headers]]

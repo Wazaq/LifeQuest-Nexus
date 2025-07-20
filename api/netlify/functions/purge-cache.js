@@ -7,7 +7,7 @@ export default async (request, context) => {
       tags: ["all"] // This will clear everything
     });
     
-    return new Response("Cache purged successfully! 🧹✨", {
+    return new Response("🧹 Cache purged successfully! Your site should now show the latest version.", {
       status: 200,
       headers: {
         "Content-Type": "text/plain"
