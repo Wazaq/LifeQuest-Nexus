@@ -1,38 +1,23 @@
 extends Control
 
-# Panels
-@onready var game_explanation_panel: PanelContainer = $MainScroll/WelcomeContainer/MainVBox/GameExplanationPanel
-@onready var game_guide_panel: PanelContainer = $MainScroll/WelcomeContainer/MainVBox/GameGuidePanel
-@onready var features_panel: PanelContainer = $MainScroll/WelcomeContainer/MainVBox/FeaturesPanel
-@onready var features_text: Label = $MainScroll/WelcomeContainer/MainVBox/FeaturesPanel/FeaturesText
-#Buttons
-@onready var prev_button: Button = $MainScroll/WelcomeContainer/MainVBox/ButtonsContainer/PrevButton
-@onready var next_button: Button = $MainScroll/WelcomeContainer/MainVBox/ButtonsContainer/NextButton
+# UI elements references
+@onready var title: Label = $MainScroll/WelcomeContainer/MainVBox/Title
+@onready var login_text: Label = $MainScroll/WelcomeContainer/MainVBox/LoginSection/LoginText
+@onready var login_section: VBoxContainer = $MainScroll/WelcomeContainer/MainVBox/LoginSection
 
-# OAuth UI elements (to be added to scene)
+# OAuth UI elements (to be added dynamically)
 var google_login_button: Button
 var skip_login_button: Button
 var login_status_label: Label
 
-# Panel array so I can control the prev/next easier (I hope)
-var panelArray = []
-var current_step = 0
-var max_step = 2
 var show_login_option = true  # Show OAuth login option
 var pending_oauth_url = ""
 
 func _ready() -> void:
-	
-	panelArray = [game_explanation_panel,game_guide_panel,features_panel]
-	
 	setup_welcome_styling()
-	connect_buttons()
-	connect_oauth_signals()
 	
 	# Check authentication state and route accordingly
 	check_authentication_and_route()
-	
-	#Features text is now handled in the scene file
 
 func check_authentication_and_route():
 	"""Check user authentication state and route appropriately"""
@@ -46,58 +31,13 @@ func check_authentication_and_route():
 		call_deferred("_route_to_tavern")
 		return
 	
-	# User is not authenticated - show normal welcome flow
-	print("New or unauthenticated user - showing welcome flow")
+	# User is not authenticated - show landing page with OAuth options
+	print("New or unauthenticated user - showing landing page")
 	setup_oauth_ui()
-	_inital_panel_loader()
 
 func _route_to_tavern():
 	"""Deferred function to safely change to Tavern scene"""
 	get_tree().change_scene_to_file("res://scenes/TavernMain.tscn")
-	
-func _inital_panel_loader():
-	# Load the game explanation panel first, with guide and features hidden
-	show_current_panel()
-	update_button_states()
-	
-func connect_buttons():
-	"""Connect button signals"""
-	if prev_button:
-		prev_button.pressed.connect(_on_prev_button_pressed)
-	if next_button:
-		next_button.pressed.connect(_on_next_button_pressed)
-	
-		
-func _on_prev_button_pressed():
-	# Move to the previous panel
-	if current_step > 0:
-		current_step -= 1
-		show_current_panel()
-		update_button_states()
-	
-func _on_next_button_pressed():
-	# Move to the next panel or go to tavern if on last panel
-	if current_step < max_step:
-		current_step += 1
-		show_current_panel()
-		update_button_states()
-	else:
-		# On last panel - go to tavern
-		get_tree().change_scene_to_file("res://scenes/TavernMain.tscn")
-	
-func show_current_panel():
-	for i in range(panelArray.size()):
-		panelArray[i].visible = (i == current_step)
-
-func update_button_states():
-	# Hide prev button on first panel
-	prev_button.visible = (current_step > 0)
-	
-	# Change next button text on last panel
-	if current_step == max_step:
-		next_button.text = "Enter the Tavern!"
-	else:
-		next_button.text = "Next -->"
 
 func setup_welcome_styling():
 	"""Apply consistent styling to match the tavern theme"""
@@ -123,80 +63,22 @@ func setup_welcome_styling():
 	var welcome_container = $MainScroll/WelcomeContainer
 	welcome_container.add_theme_stylebox_override("panel", main_style)
 	
-	# Style the content panels with dark brown theme
-	var panel_style = StyleBoxFlat.new()
-	panel_style.bg_color = Color("#3D2914")  # Dark brown
-	panel_style.corner_radius_bottom_left = 10
-	panel_style.corner_radius_bottom_right = 10
-	panel_style.corner_radius_top_left = 10
-	panel_style.corner_radius_top_right = 10
-	panel_style.border_width_bottom = 1
-	panel_style.border_width_top = 1
-	panel_style.border_width_left = 1
-	panel_style.border_width_right = 1
-	panel_style.border_color = Color("#8B4513")  # Saddle brown border
-	panel_style.content_margin_left = 15
-	panel_style.content_margin_right = 15
-	panel_style.content_margin_top = 15
-	panel_style.content_margin_bottom = 15
-	
-	# Apply panel styling to all content panels
-	game_explanation_panel.add_theme_stylebox_override("panel", panel_style)
-	game_guide_panel.add_theme_stylebox_override("panel", panel_style)
-	features_panel.add_theme_stylebox_override("panel", panel_style)
-	
 	# Set up text colors
 	setup_welcome_text_colors()
-	
-	# Style buttons
-	setup_welcome_button_styles()
 
 func setup_welcome_text_colors():
-	"""Apply consistent text colors"""
-	# Title styling
-	var title = $MainScroll/WelcomeContainer/MainVBox/HeaderSection/Title
-	title.add_theme_color_override("font_color", Color("#DAA520"))  # Gold
+	"""Apply consistent text colors with outline for visibility over background"""
+	# Title styling - larger font with outline for visibility
+	title.add_theme_color_override("font_color", Color("#FFD700"))  # Bright gold
+	title.add_theme_color_override("font_shadow_color", Color("#000000"))  # Black shadow
+	title.add_theme_constant_override("shadow_offset_x", 2)
+	title.add_theme_constant_override("shadow_offset_y", 2)
 	
-	# Subtitle styling  
-	var subtitle = $MainScroll/WelcomeContainer/MainVBox/HeaderSection/Subtitle
-	subtitle.add_theme_color_override("font_color", Color("#CD853F"))  # Peru
-	
-	# Content text styling
-	var game_text = $MainScroll/WelcomeContainer/MainVBox/GameExplanationPanel/GameText
-	game_text.add_theme_color_override("default_color", Color("#F5DEB3"))  # Wheat
-	
-	var game_guide_text = $MainScroll/WelcomeContainer/MainVBox/GameGuidePanel/GameGuideText
-	game_guide_text.add_theme_color_override("default_color", Color("#F5DEB3"))  # Wheat
-	
-	var features_text_ref = $MainScroll/WelcomeContainer/MainVBox/FeaturesPanel/FeaturesText
-	features_text_ref.add_theme_color_override("default_color", Color("#F5DEB3"))  # Wheat
-
-func setup_welcome_button_styles():
-	"""Apply consistent button styling"""
-	
-	# Create button styles
-	var button_style = StyleBoxFlat.new()
-	button_style.bg_color = Color("#DAA520")  # Goldenrod
-	button_style.corner_radius_bottom_left = 8
-	button_style.corner_radius_bottom_right = 8
-	button_style.corner_radius_top_left = 8
-	button_style.corner_radius_top_right = 8
-	
-	var button_hover = StyleBoxFlat.new()
-	button_hover.bg_color = Color("#FFD700")  # Gold
-	button_hover.corner_radius_bottom_left = 8
-	button_hover.corner_radius_bottom_right = 8
-	button_hover.corner_radius_top_left = 8
-	button_hover.corner_radius_top_right = 8
-	
-	# Apply to navigation buttons
-	prev_button.add_theme_stylebox_override("normal", button_style)
-	prev_button.add_theme_stylebox_override("hover", button_hover)
-	prev_button.add_theme_color_override("font_color", Color("#2F4F4F"))  # Dark text
-	
-	next_button.add_theme_stylebox_override("normal", button_style)
-	next_button.add_theme_stylebox_override("hover", button_hover)
-	next_button.add_theme_color_override("font_color", Color("#2F4F4F"))  # Dark text
+	# Login text styling
+	login_text.add_theme_color_override("font_color", Color("#F5DEB3"))  # Wheat
+	login_text.add_theme_color_override("font_shadow_color", Color("#000000"))  # Black shadow
+	login_text.add_theme_constant_override("shadow_offset_x", 1)
+	login_text.add_theme_constant_override("shadow_offset_y", 1)
 
 # OAuth Authentication Methods
 func setup_oauth_ui():
@@ -213,50 +95,46 @@ func setup_oauth_ui():
 		
 	# Create Google login button
 	google_login_button = Button.new()
-	google_login_button.text = "Login with Google"
-	google_login_button.custom_minimum_size = Vector2(200, 40)
+	google_login_button.text = "Sign up with Google"
+	google_login_button.custom_minimum_size = Vector2(250, 50)
 	
 	# Create skip login button  
 	skip_login_button = Button.new()
 	skip_login_button.text = "Continue as Guest"
-	skip_login_button.custom_minimum_size = Vector2(200, 40)
+	skip_login_button.custom_minimum_size = Vector2(250, 50)
 	
 	# Create status label
 	login_status_label = Label.new()
-	login_status_label.text = "For the best experience, login to sync your progress across devices"
+	login_status_label.text = "For the best experience, sign up to sync your progress across devices"
 	login_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	login_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	
-	# Add to the first panel (game explanation)
-	var game_panel_vbox = game_explanation_panel.get_child(0)  # Assumes VBox structure
-	if game_panel_vbox:
-		# Add some spacing
-		var spacer = Control.new()
-		spacer.custom_minimum_size = Vector2(0, 20)
-		game_panel_vbox.add_child(spacer)
-		
+	# Add to the login section
+	if login_section:
 		# Add login status label
-		game_panel_vbox.add_child(login_status_label)
+		login_section.add_child(login_status_label)
 		
 		# Add spacer
-		var spacer2 = Control.new()
-		spacer2.custom_minimum_size = Vector2(0, 10)
-		game_panel_vbox.add_child(spacer2)
+		var spacer = Control.new()
+		spacer.custom_minimum_size = Vector2(0, 15)
+		login_section.add_child(spacer)
 		
-		# Create button container
-		var button_container = HBoxContainer.new()
-		button_container.alignment = BoxContainer.ALIGNMENT_CENTER
-		button_container.add_child(google_login_button)
+		# Add Google button
+		login_section.add_child(google_login_button)
 		
+		# Add spacer between buttons
 		var button_spacer = Control.new()
-		button_spacer.custom_minimum_size = Vector2(20, 0)
-		button_container.add_child(button_spacer)
+		button_spacer.custom_minimum_size = Vector2(0, 10)
+		login_section.add_child(button_spacer)
 		
-		button_container.add_child(skip_login_button)
-		game_panel_vbox.add_child(button_container)
+		# Add guest button
+		login_section.add_child(skip_login_button)
 	
 	# Style the new buttons
 	style_oauth_buttons()
+	
+	# Now connect the signals since buttons exist
+	connect_oauth_signals()
 
 func style_oauth_buttons():
 	"""Apply styling to OAuth buttons"""
@@ -306,11 +184,20 @@ func style_oauth_buttons():
 
 func connect_oauth_signals():
 	"""Connect OAuth-related signals"""
-	# Connect button signals
+	print("Connecting OAuth signals...")
+	
+	# Connect button signals with null checks
 	if google_login_button:
 		google_login_button.pressed.connect(_on_google_login_pressed)
+		print("Google login button signal connected")
+	else:
+		print("WARNING: google_login_button is null, cannot connect signal")
+		
 	if skip_login_button:
 		skip_login_button.pressed.connect(_on_skip_login_pressed)
+		print("Skip login button signal connected")
+	else:
+		print("WARNING: skip_login_button is null, cannot connect signal")
 	
 	# Connect APIManager OAuth signals
 	if APIManager:
@@ -318,17 +205,21 @@ func connect_oauth_signals():
 		APIManager.oauth_login_success.connect(_on_oauth_login_success)
 		APIManager.oauth_login_failed.connect(_on_oauth_login_failed)
 		APIManager.authentication_state_changed.connect(_on_auth_state_changed)
+		print("APIManager OAuth signals connected")
+	else:
+		print("WARNING: APIManager is null, cannot connect OAuth signals")
 
 # OAuth Event Handlers
 func _on_google_login_pressed():
 	"""Handle Google login button press"""
-	print("Starting Google OAuth flow...")
+	print("Google login button pressed - OAuth flow starting...")
 	login_status_label.text = "Connecting to Google..."
 	google_login_button.disabled = true
 	APIManager.initiate_google_oauth()
 
 func _on_skip_login_pressed():
 	"""Handle skip login button press"""
+	print("Skip login button pressed - creating guest account...")
 	APIManager.create_guest_user();
 	print("Continuing as guest...")
 	hide_oauth_ui()

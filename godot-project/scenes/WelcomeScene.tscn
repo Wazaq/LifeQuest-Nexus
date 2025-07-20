@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://djmbv5s7qcnlt"]
+[gd_scene load_steps=3 format=3 uid="uid://bnj86nv0joqab"]
 
 [ext_resource type="Script" uid="uid://cr326gadhsx5p" path="res://scripts/WelcomeScene.gd" id="1_r7phi"]
+[ext_resource type="Texture2D" uid="uid://cq12n6x24itbu" path="res://assets/ui/entry_page_logo.png" id="2_jybfq"]
 
 [node name="Welcome Scene" type="Control"]
 layout_mode = 3
@@ -25,97 +26,40 @@ layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 3
 
+[node name="TextureRect" type="TextureRect" parent="MainScroll/WelcomeContainer"]
+layout_mode = 2
+texture = ExtResource("2_jybfq")
+expand_mode = 3
+
 [node name="MainVBox" type="VBoxContainer" parent="MainScroll/WelcomeContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
 
-[node name="HeaderSection" type="VBoxContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
+[node name="TopSpacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 
-[node name="Title" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/HeaderSection"]
+[node name="Title" type="Label" parent="MainScroll/WelcomeContainer/MainVBox"]
 layout_mode = 2
-text = "Welcome To LifeQuest!"
+text = "LifeQuest"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/HeaderSection"]
-layout_mode = 2
-text = "Begin Your Adventure"
-horizontal_alignment = 1
-
-[node name="Spacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-
-[node name="GameExplanationPanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
-custom_minimum_size = Vector2(500, 0)
+[node name="MidSpacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="GameText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/GameExplanationPanel"]
-custom_minimum_size = Vector2(500, 0)
+[node name="LoginSection" type="VBoxContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
 layout_mode = 2
-text = "LifeQuest turns your daily tasks into a simple game. Complete things in real life, earn XP, level up your character.
+size_flags_horizontal = 4
 
-Whether it's cleaning your room, calling a friend, or trying a new recipe - every small action becomes progress toward something bigger.
+[node name="LoginText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/LoginSection"]
+layout_mode = 2
+text = "Begin your epic adventure"
+horizontal_alignment = 1
 
-The app suggests tasks that match your current level, so you're never overwhelmed. Start small, build momentum, tackle bigger challenges when you're ready.
-
-No complicated systems or psychology lectures - just you, making progress, one quest at a time."
-autowrap_mode = 3
-
-[node name="GameGuidePanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
+[node name="ButtonSpacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox/LoginSection"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="GameGuideText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/GameGuidePanel"]
-custom_minimum_size = Vector2(500, 0)
+[node name="BottomSpacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-text = "Welcome to the tavern, brave adventurer! Here's how your journey works:
-
-*  Visit Dorin in the tavern to receive your next quest - he'll choose one perfectly suited to your current level and growth.
-
-*  Complete quests in real life to earn XP and level up your character. The honor system means you mark your own progress.
-
-*  Progress through five realms based on your psychological growth: Foundation, Safety, Connection, Recognition, and Actualization.
-
-*   Each completed quest brings you closer to becoming the hero of your own life story. Ready to begin your adventure?"
-autowrap_mode = 3
-
-[node name="FeaturesPanel" type="PanelContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
-layout_mode = 2
-
-[node name="FeaturesText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/FeaturesPanel"]
-custom_minimum_size = Vector2(500, 0)
-layout_mode = 2
-text = "***  Latest Features ***
-
-*   Beautiful tavern interface with Dorin your friendly tavern keeper
-*   Smart quest system that matches your current level and growth
-*   Five progression realms based on psychological development
-*   Real-world achievement tracking with XP and leveling
-*   Mobile-optimized design that works anywhere
-
-Ready to transform your daily life into an epic adventure?"
-autowrap_mode = 3
-
-[node name="Spacer2" type="Control" parent="MainScroll/WelcomeContainer/MainVBox"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-
-[node name="ButtonsContainer" type="HBoxContainer" parent="MainScroll/WelcomeContainer/MainVBox"]
-layout_mode = 2
-alignment = 1
-
-[node name="PrevButton" type="Button" parent="MainScroll/WelcomeContainer/MainVBox/ButtonsContainer"]
-custom_minimum_size = Vector2(150, 50)
-layout_mode = 2
-text = "<-- Go Back"
-
-[node name="Spacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox/ButtonsContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-
-[node name="NextButton" type="Button" parent="MainScroll/WelcomeContainer/MainVBox/ButtonsContainer"]
-custom_minimum_size = Vector2(150, 50)
-layout_mode = 2
-text = "Next -->"
