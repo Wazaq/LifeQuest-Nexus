@@ -1,0 +1,60 @@
+# Netlify configuration for LifeQuest PWA
+# Controls HTTP caching behavior to fix update issues
+
+[build]
+  publish = "godot-project/builds/web"
+
+# Cache control headers for PWA files
+[[headers]]
+  # Main HTML file - never cache, always get fresh version
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+[[headers]]
+  # Service worker - never cache, critical for updates
+  for = "/index.service.worker.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+[[headers]]
+  # PWA manifest - never cache, affects installation
+  for = "/index.manifest.json"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+[[headers]]
+  # Game assets - cache but validate with server
+  for = "/index.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  # WebAssembly - cache but validate with server  
+  for = "/index.wasm"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  # Game data - cache but validate with server
+  for = "/index.pck"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  # Images and icons - can cache longer but still validate
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+[[headers]]
+  # Other static assets - can cache longer but still validate
+  for = "/*.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
