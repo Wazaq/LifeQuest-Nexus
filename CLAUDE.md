@@ -48,16 +48,14 @@ Neural Nexus Remote MCP:check_credit_balance  // Check available credits for eff
 
 Based on post-Netlify migration analysis, these are the critical issues to address:
 
-### 1. **User Authentication & Persistence** (COMPLETE WITH ERROR)
-**Problem**: Every app open shows welcome screen, even for existing players
-**Current**: Browser-tied profiles with no cross-device sync
-**Goal**: Persistent user accounts across devices with social login (Google/Discord)
+### 1. **Landing page** (MEDIUM PRIORITY)
+**Problem**: There is no landing page for the user to load in on
+**Current**: When user opens the app, it goes to the Welcome Screen (Welcome to Lifequest)
+**Goal**: Create a landing page for the user when they open the app
 **Tasks**:
-- Implement user authentication system (avoid username/password if possible)
-- Cross-device profile synchronization
-- Existing user detection and routing
-
-ERROR WITH USER AUTH:  When deployed to production, and tyring the sign in with google via the webiste, after the auth process it still re-directs to the localhost address and not the correct URL... is it because the wrangler file has "ENVIRONMENT = "development""  how does those setting work for different environments?
+- When the app opens, if there is no profile/save file for the user, show Google/Guest buttons (already exisitng in code in WelcomeScreen.gd)
+- If user has a Google profile linked - Send the user to the TavernMain scene
+- If user has a guest profile already - Send the user to the TavernMain scene but have an option on the profile scene to link their account to google, if they already do or when they do, shoudl display something like "Account Linked" or "Googled Linked" or something.
 
 ### 2. **Onboarding Experience Overhaul** (HIGH PRIORITY)  
 **Problem**: Static text boxes for tutorial - nobody reads walls of text

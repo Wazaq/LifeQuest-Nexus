@@ -27,11 +27,33 @@ func _ready() -> void:
 	
 	setup_welcome_styling()
 	connect_buttons()
-	setup_oauth_ui()
 	connect_oauth_signals()
-	_inital_panel_loader()
+	
+	# Check authentication state and route accordingly
+	check_authentication_and_route()
 	
 	#Features text is now handled in the scene file
+
+func check_authentication_and_route():
+	"""Check user authentication state and route appropriately"""
+	
+	# Check if user is already authenticated
+	if APIManager and APIManager.is_authenticated and APIManager.current_user_id != "":
+		print("User already authenticated - routing directly to Tavern")
+		print("User ID: ", APIManager.current_user_id)
+		
+		# Use call_deferred to avoid scene tree conflicts
+		call_deferred("_route_to_tavern")
+		return
+	
+	# User is not authenticated - show normal welcome flow
+	print("New or unauthenticated user - showing welcome flow")
+	setup_oauth_ui()
+	_inital_panel_loader()
+
+func _route_to_tavern():
+	"""Deferred function to safely change to Tavern scene"""
+	get_tree().change_scene_to_file("res://scenes/TavernMain.tscn")
 	
 func _inital_panel_loader():
 	# Load the game explanation panel first, with guide and features hidden
@@ -178,7 +200,14 @@ func setup_welcome_button_styles():
 
 # OAuth Authentication Methods
 func setup_oauth_ui():
-	"""Create OAuth login UI elements dynamically"""
+	"""Create OAuth login UI elements dynamically - only for unauthenticated users"""
+	
+	# Only show OAuth UI if user is not authenticated
+	if APIManager and APIManager.is_authenticated:
+		print("User already authenticated - skipping OAuth UI")
+		show_login_option = false
+		return
+	
 	if not show_login_option:
 		return
 		

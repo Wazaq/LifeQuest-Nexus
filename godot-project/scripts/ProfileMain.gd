@@ -10,6 +10,11 @@ extends Control
 @onready var new_user_button = $MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox/ButtonsHBox/NewUserButton
 @onready var refresh_profile_button = $MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox/ButtonsHBox/RefreshProfileButton
 
+# Authentication status UI - will be created dynamically
+var auth_status_label: Label
+var link_google_button: Button
+var debug_nuke_button: Button
+
 # UI References - Maslow Progress
 @onready var physio_status = $MainScroll/ProfileContainer/MainVBox/MaslowProgressPanel/MaslowVBox/PhysiologicalTier/PhysioStatus
 @onready var safety_status = $MainScroll/ProfileContainer/MainVBox/MaslowProgressPanel/MaslowVBox/SafetyTier/SafetyStatus
@@ -25,10 +30,11 @@ extends Control
 var current_profile_data: Dictionary = {}
 
 func _ready():
-	print("ð¤ Profile Scene initialized")
+	print("Profile Scene initialized")
 	
 	setup_profile_styling()
 	connect_buttons()
+	setup_authentication_ui()
 	load_user_profile()
 
 func _exit_tree():
@@ -41,37 +47,131 @@ func _exit_tree():
 			APIManager.user_created.disconnect(_on_user_created)
 		if APIManager.api_error.is_connected(_on_api_error):
 			APIManager.api_error.disconnect(_on_api_error)
+		# Disconnect OAuth signals if connected
+		if APIManager.oauth_login_ready.is_connected(_on_oauth_login_ready):
+			APIManager.oauth_login_ready.disconnect(_on_oauth_login_ready)
+		if APIManager.oauth_login_success.is_connected(_on_oauth_login_success):
+			APIManager.oauth_login_success.disconnect(_on_oauth_login_success)
+		if APIManager.oauth_login_failed.is_connected(_on_oauth_login_failed):
+			APIManager.oauth_login_failed.disconnect(_on_oauth_login_failed)
 
 func connect_buttons():
 	"""Connect button signals"""
 	if new_user_button:
 		new_user_button.pressed.connect(_on_new_user_button_pressed)
-		print("â New User button connected")
+		print("New User button connected")
 	else:
-		print("â New User button not found!")
+		print("New User button not found!")
 	
 	if refresh_profile_button:
 		refresh_profile_button.pressed.connect(_on_refresh_profile_button_pressed)
-		print("â Refresh Profile button connected")
+		print("Refresh Profile button connected")
 	else:
-		print("â Refresh Profile button not found!")
+		print("Refresh Profile button not found!")
 	
 	# Connect navigation button
 	if back_to_tavern_button:
 		back_to_tavern_button.pressed.connect(_on_back_to_tavern_button_pressed)
-		print("â Back to Tavern button connected")
+		print("Back to Tavern button connected")
 	else:
-		print("â Back to Tavern button not found!")
+		print("Back to Tavern button not found!")
 	
 	# Connect to APIManager signals
 	if APIManager:
 		APIManager.profile_updated.connect(_on_profile_updated)
 		APIManager.user_created.connect(_on_user_created)
 		APIManager.api_error.connect(_on_api_error)
-		print("â APIManager signals connected")
+		print("APIManager signals connected")
 	else:
-		print("â APIManager not found!")
+		print("APIManager not found!")
 		show_temporary_message("Warning: API not available - profile features limited")
+
+func setup_authentication_ui():
+	"""Setup authentication status display and linking controls"""
+	
+	# Get the user session panel's VBox to add our auth UI
+	var user_vbox = $MainScroll/ProfileContainer/MainVBox/UserSessionPanel/UserVBox
+	if not user_vbox:
+		print("Could not find user session VBox for auth UI")
+		return
+	
+	# Create authentication status label
+	auth_status_label = Label.new()
+	auth_status_label.name = "AuthStatusLabel"
+	auth_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	auth_status_label.add_theme_color_override("font_color", Color("#F5DEB3"))  # Wheat
+	
+	# Determine authentication status and set appropriate UI
+	if APIManager:
+		if APIManager.current_auth_mode == APIManager.AuthMode.OAUTH_JWT:
+			# User has Google account linked
+			var google_name = APIManager.google_user_data.get("name", "Google User")
+			auth_status_label.text = "Google Account Linked: " + google_name
+		elif APIManager.current_auth_mode == APIManager.AuthMode.LEGACY_USER_ID:
+			# User is using guest account
+			auth_status_label.text = "Guest Account"
+			
+			# Create Link to Google button for guest users
+			link_google_button = Button.new()
+			link_google_button.name = "LinkGoogleButton"
+			link_google_button.text = "Link to Google Account"
+			link_google_button.custom_minimum_size = Vector2(200, 40)
+			
+			# Style the link button
+			var link_style = StyleBoxFlat.new()
+			link_style.bg_color = Color("#4285F4")  # Google blue
+			link_style.corner_radius_bottom_left = 8
+			link_style.corner_radius_bottom_right = 8
+			link_style.corner_radius_top_left = 8
+			link_style.corner_radius_top_right = 8
+			
+			var link_hover = StyleBoxFlat.new()
+			link_hover.bg_color = Color("#357AE8")  # Darker blue
+			link_hover.corner_radius_bottom_left = 8
+			link_hover.corner_radius_bottom_right = 8
+			link_hover.corner_radius_top_left = 8
+			link_hover.corner_radius_top_right = 8
+			
+			link_google_button.add_theme_stylebox_override("normal", link_style)
+			link_google_button.add_theme_stylebox_override("hover", link_hover)
+			link_google_button.add_theme_color_override("font_color", Color.WHITE)
+			
+			# Connect the button
+			link_google_button.pressed.connect(_on_link_google_button_pressed)
+			
+			# Connect OAuth signals for linking flow
+			if APIManager:
+				APIManager.oauth_login_ready.connect(_on_oauth_login_ready)
+				APIManager.oauth_login_success.connect(_on_oauth_login_success)
+				APIManager.oauth_login_failed.connect(_on_oauth_login_failed)
+		else:
+			auth_status_label.text = "No Authentication"
+	else:
+		auth_status_label.text = "API Manager Not Available"
+	
+	# Add auth status label to UI
+	user_vbox.add_child(auth_status_label)
+	
+	# Add some spacing
+	var spacer = Control.new()
+	spacer.custom_minimum_size = Vector2(0, 10)
+	user_vbox.add_child(spacer)
+	
+	# Add link button if it was created (for guest users)
+	if link_google_button:
+		user_vbox.add_child(link_google_button)
+	
+	# Add the epic debug button for testing shenanigans
+	var debug_spacer = Control.new()
+	debug_spacer.custom_minimum_size = Vector2(0, 20)
+	user_vbox.add_child(debug_spacer)
+	
+	debug_nuke_button = Button.new()
+	debug_nuke_button.name = "DebugNukeButton"
+	debug_nuke_button.text = "Nuclear Launch Codes (Reset Everything)"
+	debug_nuke_button.custom_minimum_size = Vector2(250, 40)
+	debug_nuke_button.pressed.connect(_on_debug_nuke_pressed)
+	user_vbox.add_child(debug_nuke_button)
 
 func load_user_profile():
 	"""Load and display current user profile"""
@@ -110,13 +210,13 @@ func show_loading_state():
 
 func _on_profile_updated(profile_data: Dictionary):
 	"""Handle profile data update from API"""
-	print("â Profile data received: ", profile_data)
+	print("Profile data received: ", profile_data)
 	current_profile_data = profile_data
 	update_profile_display()
 
 func _on_user_created(user_data: Dictionary):
 	"""Handle new user creation"""
-	print("ð New user created: ", user_data.get("user_id", "unknown"))
+	print("New user created: ", user_data.get("user_id", "unknown"))
 	
 	# Update user display
 	if user_id_value_label:
@@ -131,13 +231,13 @@ func _on_user_created(user_data: Dictionary):
 
 func _on_api_error(error_message: String):
 	"""Handle API errors"""
-	print("â API Error: ", error_message)
+	print("API Error: ", error_message)
 	show_temporary_message("Error: " + error_message)
 
 func update_profile_display():
 	"""Update all profile UI elements with current data"""
 	if current_profile_data.is_empty():
-		print("â ï¸ No profile data to display")
+		print("No profile data to display")
 		return
 	
 	# Update character stats
@@ -261,6 +361,62 @@ func show_temporary_message(message: String):
 	"""Show a temporary message to the user"""
 	print("Profile Message: ", message)
 	# For now, just log. Later we could add a notification system
+
+# Google Linking Event Handlers
+func _on_link_google_button_pressed():
+	"""Handle Link to Google Account button press"""
+	print("Starting Google account linking for guest user...")
+	
+	if link_google_button:
+		link_google_button.disabled = true
+		link_google_button.text = "Connecting to Google..."
+	
+	if APIManager:
+		APIManager.initiate_google_oauth()
+
+func _on_oauth_login_ready(auth_url: String):
+	"""Handle OAuth URL received for account linking"""
+	print("OAuth URL received for linking: ", auth_url)
+	
+	if auth_status_label:
+		auth_status_label.text = "Opening Google login..."
+	
+	# Open URL in default browser
+	OS.shell_open(auth_url)
+	
+	# Update UI for callback waiting
+	if link_google_button:
+		link_google_button.text = "Complete login in browser..."
+
+func _on_oauth_login_success(user_data: Dictionary):
+	"""Handle successful Google account linking"""
+	print("Google account linked successfully! Welcome ", user_data.get("name", "User"))
+	
+	# Update UI to show linked status
+	if auth_status_label:
+		var google_name = user_data.get("name", "Google User")
+		auth_status_label.text = "Google Account Linked: " + google_name
+	
+	# Hide and remove the link button
+	if link_google_button:
+		link_google_button.visible = false
+		link_google_button.queue_free()
+		link_google_button = null
+	
+	show_temporary_message("Google account linked successfully!")
+
+func _on_oauth_login_failed(error_message: String):
+	"""Handle Google account linking failure"""
+	print("Google account linking failed: ", error_message)
+	
+	if auth_status_label:
+		auth_status_label.text = "Guest Account (Link failed)"
+	
+	if link_google_button:
+		link_google_button.text = "Link to Google Account"
+		link_google_button.disabled = false
+	
+	show_temporary_message("Google linking failed: " + error_message)
 
 func setup_profile_styling():
 	"""Apply consistent styling to match tavern theme"""
@@ -387,6 +543,10 @@ func setup_button_styles():
 	
 	if refresh_profile_button:
 		apply_button_style(refresh_profile_button, "#32CD32", "#00FF00")  # Green
+	
+	# Add the fun debug button!
+	if debug_nuke_button:
+		apply_button_style(debug_nuke_button, "#FF0000", "#FF6666")  # Red/Pink
 
 func apply_button_style(button: Button, normal_color: String, hover_color: String):
 	"""Apply styling to a button"""
@@ -411,5 +571,45 @@ func apply_button_style(button: Button, normal_color: String, hover_color: Strin
 # Navigation Event Handler
 func _on_back_to_tavern_button_pressed():
 	"""Handle Back to Tavern button press"""
-	print("ð° Returning to Tavern...")
+	print("Returning to Tavern...")
 	get_tree().change_scene_to_file("res://scenes/TavernMain.tscn")
+
+# Debug Nuclear Option Event Handler
+func _on_debug_nuke_pressed():
+	"""Handle the nuclear option - reset everything for testing"""
+	print("INITIATING NUCLEAR PROTOCOL: Resetting all user data...")
+	
+	# Disable the button to prevent spam-clicking
+	if debug_nuke_button:
+		debug_nuke_button.disabled = true
+		debug_nuke_button.text = "NUKING... Please wait for fallout"
+	
+	# Show dramatic feedback
+	show_temporary_message("NUCLEAR LAUNCH DETECTED: All save data will be obliterated!")
+	
+	# Clear all user data
+	if APIManager:
+		APIManager.reset_user_session()
+	
+	# Delete the save file manually as well (just to be thorough)
+	var save_file_path = "user://lifequest_user.save"
+	if FileAccess.file_exists(save_file_path):
+		DirAccess.remove_absolute(save_file_path)
+		print("Save file obliterated successfully")
+	
+	# Wait a moment for dramatic effect
+	await get_tree().create_timer(2.0).timeout
+	
+	# Update UI to reflect the apocalypse
+	if auth_status_label:
+		auth_status_label.text = "Nuclear Winter: No Authentication"
+	if user_id_value_label:
+		user_id_value_label.text = "Post-Apocalyptic Wanderer"
+	
+	# Re-enable button with new text
+	if debug_nuke_button:
+		debug_nuke_button.disabled = false
+		debug_nuke_button.text = "Radiation Cleared - Ready for Round 2"
+	
+	show_temporary_message("Nuclear reset complete! Restart app to test fresh user flow.")
+	print("MISSION ACCOMPLISHED: All user data has been successfully nuked from orbit.")
