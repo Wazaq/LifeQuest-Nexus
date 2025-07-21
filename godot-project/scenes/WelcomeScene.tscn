@@ -40,7 +40,8 @@ layout_mode = 2
 
 [node name="Title" type="Label" parent="MainScroll/WelcomeContainer/MainVBox"]
 layout_mode = 2
-text = "LifeQuest"
+text = "V-0013
+LifeQuest"
 horizontal_alignment = 1
 
 [node name="MidSpacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox"]
@@ -53,8 +54,7 @@ size_flags_horizontal = 4
 
 [node name="LoginText" type="Label" parent="MainScroll/WelcomeContainer/MainVBox/LoginSection"]
 layout_mode = 2
-text = "Begin your epic adventure
-v. 012"
+text = "Begin your epic adventure"
 horizontal_alignment = 1
 
 [node name="ButtonSpacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox/LoginSection"]
