@@ -1,28 +1,36 @@
-import { purgeCache } from "@netlify/functions"
+import { purgeCache } from "@netlify/functions";
 
-export default async (request, context) => {
-  try {
-    // Purge all cached content
-    await purgeCache({
-      tags: ["all"] // This will clear everything
-    });
+export default async () => {
+  console.log("Purging everything");
+  await purgeCache();
+  return new Response("Purged!", { status: 202 });
+};
+
+// import { purgeCache } from "@netlify/functions"
+
+// export default async (request, context) => {
+//   try {
+//     // Purge all cached content
+//     await purgeCache({
+//       tags: ["all"] // This will clear everything
+//     });
     
-    return new Response("🧹 Cache purged successfully! Your site should now show the latest version.", {
-      status: 200,
-      headers: {
-        "Content-Type": "text/plain"
-      }
-    });
-  } catch (error) {
-    return new Response(`Cache purge failed: ${error.message}`, {
-      status: 500,
-      headers: {
-        "Content-Type": "text/plain"
-      }
-    });
-  }
-}
+//     return new Response("🧹 Cache purged successfully! Your site should now show the latest version.", {
+//       status: 200,
+//       headers: {
+//         "Content-Type": "text/plain"
+//       }
+//     });
+//   } catch (error) {
+//     return new Response(`Cache purge failed: ${error.message}`, {
+//       status: 500,
+//       headers: {
+//         "Content-Type": "text/plain"
+//       }
+//     });
+//   }
+// }
 
-export const config = {
-  path: "/api/purge-cache"
-}
+// export const config = {
+//   path: "/api/purge-cache"
+// }
