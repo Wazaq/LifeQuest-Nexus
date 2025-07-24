@@ -9,9 +9,7 @@ extends Control
 @onready var xp_value_label: Label = $MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/XPHBox/XPValueLabel
 @onready var xp_progress_bar: ProgressBar = $MainScroll/TavernContainer/MainVBox/CharacterStatsPanel/StatsVBox/XPProgressBar
 
-# Top Navigation UI References (primary navigation)
-@onready var bottom_profile_button: Button = $MainScroll/TavernContainer/MainVBox/BottomNavigationBar/BottomProfileButton
-@onready var bottom_tavern_button: Button = $MainScroll/TavernContainer/MainVBox/BottomNavigationBar/BottomTavernButton
+# Note: Navigation now handled by universal NavigationManager singleton
 
 # Current quest state with proper validation
 var active_quest_data: Dictionary = {}
@@ -28,22 +26,9 @@ func _ready():
 func connect_quest_system():
 	"""Connect to the QuestManager signals and button events"""
 	
-	# Connect navigation buttons first
-	connect_navigation_buttons()
-	
 	# Connect generate quest button
 	if generate_quest_button:
 		generate_quest_button.pressed.connect(_on_generate_quest_pressed)
-	
-	# Connect feedback buttons
-	var feedback_button = $MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox/ButtonsHBox/FeedbackFormButton
-	var discord_button = $MainScroll/TavernContainer/MainVBox/FeedbackSection/FeedbackVBox/ButtonsHBox/DiscordButton
-	
-	if feedback_button:
-		feedback_button.pressed.connect(_on_feedback_button_pressed)
-	
-	if discord_button:
-		discord_button.pressed.connect(_on_discord_button_pressed)
 	
 	# Connect to QuestManager signals
 	if QuestManager:
@@ -183,24 +168,34 @@ func create_quest_ui(quest_data: Dictionary):
 	complete_button.name = "QuestUI_CompleteButton"
 	complete_button.text = "Complete Quest"
 	
-	# Style the complete button
+	# Style the complete button with better contrast and mobile sizing
 	var complete_style = StyleBoxFlat.new()
 	complete_style.bg_color = Color("#32CD32")  # Lime green
-	complete_style.corner_radius_bottom_left = 6
-	complete_style.corner_radius_bottom_right = 6
-	complete_style.corner_radius_top_left = 6
-	complete_style.corner_radius_top_right = 6
+	complete_style.corner_radius_bottom_left = 8
+	complete_style.corner_radius_bottom_right = 8
+	complete_style.corner_radius_top_left = 8
+	complete_style.corner_radius_top_right = 8
+	complete_style.content_margin_top = 10
+	complete_style.content_margin_bottom = 10
+	complete_style.content_margin_left = 20
+	complete_style.content_margin_right = 20
 	
 	var complete_hover = StyleBoxFlat.new()
-	complete_hover.bg_color = Color("#00FF00")  # Bright green
-	complete_hover.corner_radius_bottom_left = 6
-	complete_hover.corner_radius_bottom_right = 6
-	complete_hover.corner_radius_top_left = 6
-	complete_hover.corner_radius_top_right = 6
+	complete_hover.bg_color = Color("#00FF00")  # Bright green on hover
+	complete_hover.corner_radius_bottom_left = 8
+	complete_hover.corner_radius_bottom_right = 8
+	complete_hover.corner_radius_top_left = 8
+	complete_hover.corner_radius_top_right = 8
+	complete_hover.content_margin_top = 10
+	complete_hover.content_margin_bottom = 10
+	complete_hover.content_margin_left = 20
+	complete_hover.content_margin_right = 20
 	
 	complete_button.add_theme_stylebox_override("normal", complete_style)
 	complete_button.add_theme_stylebox_override("hover", complete_hover)
-	complete_button.add_theme_color_override("font_color", Color("#2F4F4F"))  # Dark text
+	complete_button.add_theme_color_override("font_color", Color("#000000"))  # BLACK text for visibility
+	complete_button.add_theme_font_size_override("font_size", 16)
+	complete_button.custom_minimum_size = Vector2(200, 45)  # Mobile-friendly size
 	
 	# Connect complete button
 	complete_button.pressed.connect(_on_complete_quest_pressed)
@@ -216,14 +211,6 @@ func _on_complete_quest_pressed():
 	# Complete the current quest
 	var success = QuestManager.complete_current_quest()
 	# Quest completion handled by QuestManager
-
-func _on_feedback_button_pressed():
-	"""Handle feedback form button press"""
-	OS.shell_open("https://forms.gle/tpgCUKuEh9aTbk9x9")
-
-func _on_discord_button_pressed():
-	"""Handle Discord button press"""
-	OS.shell_open("https://discord.gg/zxy7EduTYA")
 
 func show_temporary_message(message: String):
 	"""Show a temporary message to the user"""
@@ -449,30 +436,10 @@ func setup_tavern_styling():
 	var maslow_panel = $MainScroll/TavernContainer/MainVBox/MaslowSection
 	maslow_panel.add_theme_stylebox_override("panel", maslow_style)
 	
-	# Style feedback section
-	var feedback_style = StyleBoxFlat.new()
-	feedback_style.bg_color = Color("#5D4037", 0.3)  # Semi-transparent brown
-	feedback_style.corner_radius_bottom_left = 10
-	feedback_style.corner_radius_bottom_right = 10
-	feedback_style.corner_radius_top_left = 10
-	feedback_style.corner_radius_top_right = 10
-	feedback_style.border_width_bottom = 1
-	feedback_style.border_width_top = 1
-	feedback_style.border_width_left = 1
-	feedback_style.border_width_right = 1
-	feedback_style.border_color = Color("#8B4513")
-	feedback_style.content_margin_left = 15
-	feedback_style.content_margin_right = 15
-	feedback_style.content_margin_top = 15
-	feedback_style.content_margin_bottom = 15
-	
-	var feedback_panel = $MainScroll/TavernContainer/MainVBox/FeedbackSection
-	feedback_panel.add_theme_stylebox_override("panel", feedback_style)
-	
 	# Set text colors
 	setup_text_colors()
 	
-	# Style buttons
+	# Style buttons (navigation now handled by NavigationManager)
 	setup_button_styles()
 
 func setup_text_colors():
@@ -537,135 +504,46 @@ func setup_tier_colors():
 	love_status.add_theme_color_override("font_color", Color("#8B4513"))
 
 func setup_button_styles():
-	# Generate Quest button
+	# Generate Quest button - PRIMARY ACTION BUTTON
 	var quest_button = $MainScroll/TavernContainer/MainVBox/QuestBoardSection/GenerateQuestButton
 	
 	var button_style = StyleBoxFlat.new()
 	button_style.bg_color = Color("#DAA520")  # Goldenrod
-	button_style.corner_radius_bottom_left = 8
-	button_style.corner_radius_bottom_right = 8
-	button_style.corner_radius_top_left = 8
-	button_style.corner_radius_top_right = 8
+	button_style.corner_radius_bottom_left = 12
+	button_style.corner_radius_bottom_right = 12
+	button_style.corner_radius_top_left = 12
+	button_style.corner_radius_top_right = 12
+	button_style.content_margin_top = 12
+	button_style.content_margin_bottom = 12
+	button_style.content_margin_left = 20
+	button_style.content_margin_right = 20
 	
 	var button_hover = StyleBoxFlat.new()
-	button_hover.bg_color = Color("#FFD700")  # Gold
-	button_hover.corner_radius_bottom_left = 8
-	button_hover.corner_radius_bottom_right = 8
-	button_hover.corner_radius_top_left = 8
-	button_hover.corner_radius_top_right = 8
+	button_hover.bg_color = Color("#FFD700")  # Brighter gold on hover
+	button_hover.corner_radius_bottom_left = 12
+	button_hover.corner_radius_bottom_right = 12
+	button_hover.corner_radius_top_left = 12
+	button_hover.corner_radius_top_right = 12
+	button_hover.content_margin_top = 12
+	button_hover.content_margin_bottom = 12
+	button_hover.content_margin_left = 20
+	button_hover.content_margin_right = 20
 	
 	quest_button.add_theme_stylebox_override("normal", button_style)
 	quest_button.add_theme_stylebox_override("hover", button_hover)
-	quest_button.add_theme_color_override("font_color", Color("#2F4F4F"))  # Dark text
+	quest_button.add_theme_color_override("font_color", Color("#000000"))  # BLACK text for visibility
+	quest_button.add_theme_font_size_override("font_size", 18)  # Larger font for mobile
+	quest_button.custom_minimum_size = Vector2(250, 50)  # Minimum mobile-friendly size
 	
-	# Style navigation buttons
-	style_navigation_buttons()
-
-func style_navigation_buttons():
-	"""Apply styling to navigation buttons"""
-	# Tavern button (current page - different style)
-	if bottom_tavern_button:
-		var current_style = StyleBoxFlat.new()
-		current_style.bg_color = Color("#8B4513")  # Saddle brown (active)
-		current_style.corner_radius_bottom_left = 8
-		current_style.corner_radius_bottom_right = 8
-		current_style.corner_radius_top_left = 8
-		current_style.corner_radius_top_right = 8
-		current_style.border_width_bottom = 2
-		current_style.border_width_top = 2
-		current_style.border_width_left = 2
-		current_style.border_width_right = 2
-		current_style.border_color = Color("#DAA520")  # Gold border
-		
-		bottom_tavern_button.add_theme_stylebox_override("normal", current_style)
-		bottom_tavern_button.add_theme_color_override("font_color", Color("#DAA520"))  # Gold text
-	
-	# Profile button (inactive page)
-	if bottom_profile_button:
-		var inactive_style = StyleBoxFlat.new()
-		inactive_style.bg_color = Color("#5D4037")  # Brown
-		inactive_style.corner_radius_bottom_left = 8
-		inactive_style.corner_radius_bottom_right = 8
-		inactive_style.corner_radius_top_left = 8
-		inactive_style.corner_radius_top_right = 8
-		
-		var inactive_hover = StyleBoxFlat.new()
-		inactive_hover.bg_color = Color("#8B4513")  # Darker brown on hover
-		inactive_hover.corner_radius_bottom_left = 8
-		inactive_hover.corner_radius_bottom_right = 8
-		inactive_hover.corner_radius_top_left = 8
-		inactive_hover.corner_radius_top_right = 8
-		
-		bottom_profile_button.add_theme_stylebox_override("normal", inactive_style)
-		bottom_profile_button.add_theme_stylebox_override("hover", inactive_hover)
-		bottom_profile_button.add_theme_color_override("font_color", Color("#F5DEB3"))  # Wheat text
-	
-	# Style top navigation buttons (primary navigation)
-	style_top_navigation_buttons()
-
-func style_top_navigation_buttons():
-	"""Apply prominent styling to top navigation buttons"""
-	# Bottom Tavern button
-	if bottom_tavern_button:
-		var active_style = StyleBoxFlat.new()
-		active_style.bg_color = Color("#DAA520")  # Goldenrod (very active)
-		active_style.corner_radius_bottom_left = 12
-		active_style.corner_radius_bottom_right = 12
-		active_style.corner_radius_top_left = 12
-		active_style.corner_radius_top_right = 12
-		active_style.border_width_bottom = 3
-		active_style.border_width_top = 3
-		active_style.border_width_left = 3
-		active_style.border_width_right = 3
-		active_style.border_color = Color("#FFD700")  # Bright gold border
-		
-		bottom_tavern_button.add_theme_stylebox_override("normal", active_style)
-		bottom_tavern_button.add_theme_color_override("font_color", Color("#2F4F4F"))  # Dark text
-		bottom_tavern_button.add_theme_font_size_override("font_size", 18)
-	
-	# Bottom Profile button
-	if bottom_profile_button:
-		var clickable_style = StyleBoxFlat.new()
-		clickable_style.bg_color = Color("#8B4513")  # Saddle brown
-		clickable_style.corner_radius_bottom_left = 12
-		clickable_style.corner_radius_bottom_right = 12
-		clickable_style.corner_radius_top_left = 12
-		clickable_style.corner_radius_top_right = 12
-		
-		var clickable_hover = StyleBoxFlat.new()
-		clickable_hover.bg_color = Color("#DAA520")  # Gold on hover
-		clickable_hover.corner_radius_bottom_left = 12
-		clickable_hover.corner_radius_bottom_right = 12
-		clickable_hover.corner_radius_top_left = 12
-		clickable_hover.corner_radius_top_right = 12
-		
-		bottom_profile_button.add_theme_stylebox_override("normal", clickable_style)
-		bottom_profile_button.add_theme_stylebox_override("hover", clickable_hover)
-		bottom_profile_button.add_theme_color_override("font_color", Color("#F5DEB3"))  # Wheat text
-		bottom_profile_button.add_theme_font_size_override("font_size", 18)
+	# Style feedback section
+	# Note: Feedback section moved to Settings scene
 
 # Navigation Event Handlers
 func _on_profile_button_pressed():
 	"""Handle Profile button press - switch to Profile scene"""
-	print("ð¤ Switching to Profile scene...")
+	print("Switching to Profile scene...")
 	get_tree().change_scene_to_file("res://scenes/ProfileScene.tscn")
 
 func _on_tavern_button_pressed():
 	"""Handle Tavern button press - already in Tavern, just log"""
-	print("ð° Already in Tavern!")
-
-# Enhanced connect function to include navigation
-func connect_navigation_buttons():
-	"""Connect navigation buttons"""
-	# Connect top navigation buttons (primary navigation)
-	if bottom_profile_button:
-		bottom_profile_button.pressed.connect(_on_profile_button_pressed)
-		print("Bottom Profile button connected")
-	else:
-		print("Bottom Profile button not found!")
-	
-	if bottom_tavern_button:
-		bottom_tavern_button.pressed.connect(_on_tavern_button_pressed)
-		print("Bottom Tavern button connected")
-	else:
-		print("Bottom Tavern button not found!")
+	print("Already in Tavern!")

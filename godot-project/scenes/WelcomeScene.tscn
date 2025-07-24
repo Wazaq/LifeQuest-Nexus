@@ -40,8 +40,7 @@ layout_mode = 2
 
 [node name="Title" type="Label" parent="MainScroll/WelcomeContainer/MainVBox"]
 layout_mode = 2
-text = "V-0013
-LifeQuest"
+text = "LifeQuest"
 horizontal_alignment = 1
 
 [node name="MidSpacer" type="Control" parent="MainScroll/WelcomeContainer/MainVBox"]

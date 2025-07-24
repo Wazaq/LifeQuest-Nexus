@@ -1,0 +1,131 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwgtc007ucluq"]
+
+[ext_resource type="Script" uid="uid://c80kqa1meg7nc" path="res://scripts/SettingsScene.gd" id="1_settings"]
+
+[node name="SettingsScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -320.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_settings")
+
+[node name="MainScroll" type="ScrollContainer" parent="."]
+custom_minimum_size = Vector2(0, 940)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsContainer" type="PanelContainer" parent="MainScroll"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+
+[node name="MainVBox" type="VBoxContainer" parent="MainScroll/SettingsContainer"]
+layout_mode = 2
+
+[node name="HeaderSection" type="VBoxContainer" parent="MainScroll/SettingsContainer/MainVBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MainScroll/SettingsContainer/MainVBox/HeaderSection"]
+layout_mode = 2
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="MainScroll/SettingsContainer/MainVBox/HeaderSection"]
+layout_mode = 2
+text = "Configure Your LifeQuest Experience"
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="MainScroll/SettingsContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="HelpSection" type="PanelContainer" parent="MainScroll/SettingsContainer/MainVBox"]
+layout_mode = 2
+
+[node name="HelpVBox" type="VBoxContainer" parent="MainScroll/SettingsContainer/MainVBox/HelpSection"]
+layout_mode = 2
+
+[node name="HelpTitle" type="Label" parent="MainScroll/SettingsContainer/MainVBox/HelpSection/HelpVBox"]
+layout_mode = 2
+text = "Help Make LifeQuest Better!"
+horizontal_alignment = 1
+
+[node name="HelpDescription" type="Label" parent="MainScroll/SettingsContainer/MainVBox/HelpSection/HelpVBox"]
+layout_mode = 2
+text = "You're testing an early alpha version. Your feedback shapes the future of LifeQuest!"
+horizontal_alignment = 1
+
+[node name="Spacer2" type="Control" parent="MainScroll/SettingsContainer/MainVBox/HelpSection/HelpVBox"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="MainScroll/SettingsContainer/MainVBox/HelpSection/HelpVBox"]
+layout_mode = 2
+
+[node name="FeedbackFormButton" type="Button" parent="MainScroll/SettingsContainer/MainVBox/HelpSection/HelpVBox/ButtonsHBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Feedback Form"
+
+[node name="DiscordButton" type="Button" parent="MainScroll/SettingsContainer/MainVBox/HelpSection/HelpVBox/ButtonsHBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join Discord"
+
+[node name="Spacer3" type="Control" parent="MainScroll/SettingsContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="AlphaControlsSection" type="PanelContainer" parent="MainScroll/SettingsContainer/MainVBox"]
+layout_mode = 2
+
+[node name="AlphaVBox" type="VBoxContainer" parent="MainScroll/SettingsContainer/MainVBox/AlphaControlsSection"]
+layout_mode = 2
+
+[node name="AlphaTitle" type="Label" parent="MainScroll/SettingsContainer/MainVBox/AlphaControlsSection/AlphaVBox"]
+layout_mode = 2
+text = "Alpha Testing Controls"
+horizontal_alignment = 1
+
+[node name="AlphaDescription" type="Label" parent="MainScroll/SettingsContainer/MainVBox/AlphaControlsSection/AlphaVBox"]
+layout_mode = 2
+text = "Debug and testing tools for alpha testers"
+horizontal_alignment = 1
+
+[node name="Spacer4" type="Control" parent="MainScroll/SettingsContainer/MainVBox/AlphaControlsSection/AlphaVBox"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="AlphaButtonsVBox" type="VBoxContainer" parent="MainScroll/SettingsContainer/MainVBox/AlphaControlsSection/AlphaVBox"]
+layout_mode = 2
+
+[node name="RefreshButton" type="Button" parent="MainScroll/SettingsContainer/MainVBox/AlphaControlsSection/AlphaVBox/AlphaButtonsVBox"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+text = "🔄 Refresh User Data"
+
+[node name="ResetButton" type="Button" parent="MainScroll/SettingsContainer/MainVBox/AlphaControlsSection/AlphaVBox/AlphaButtonsVBox"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+text = "⚠️ Reset Progress"
+
+[node name="NuclearButton" type="Button" parent="MainScroll/SettingsContainer/MainVBox/AlphaControlsSection/AlphaVBox/AlphaButtonsVBox"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+text = "☢️ Nuclear Launch (Full Reset)"
+
+[node name="Spacer5" type="Control" parent="MainScroll/SettingsContainer/MainVBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+

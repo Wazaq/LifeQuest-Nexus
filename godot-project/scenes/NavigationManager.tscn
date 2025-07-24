@@ -1,0 +1,92 @@
+[gd_scene load_steps=2 format=3 uid="uid://dq5ktxnxt5w3l"]
+
+[ext_resource type="Script" uid="uid://vr6kj50fyshd" path="res://scripts/NavigationManager.gd" id="1_0k8xh"]
+
+[node name="NavigationManager" type="CanvasLayer"]
+script = ExtResource("1_0k8xh")
+
+[node name="HamburgerButton" type="Button" parent="."]
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 75.0
+offset_bottom = 65.0
+text = "☰"
+
+[node name="NavigationTrayOverlay" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TrayBackground" type="ColorRect" parent="NavigationTrayOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="NavigationTray" type="PanelContainer" parent="NavigationTrayOverlay"]
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -300.0
+offset_bottom = 300.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="TrayVBox" type="VBoxContainer" parent="NavigationTrayOverlay/NavigationTray"]
+layout_mode = 2
+
+[node name="TrayHeader" type="HBoxContainer" parent="NavigationTrayOverlay/NavigationTray/TrayVBox"]
+layout_mode = 2
+
+[node name="TrayTitle" type="Label" parent="NavigationTrayOverlay/NavigationTray/TrayVBox/TrayHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Navigation"
+horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="NavigationTrayOverlay/NavigationTray/TrayVBox/TrayHeader"]
+layout_mode = 2
+text = "✕"
+
+[node name="NavButtons" type="VBoxContainer" parent="NavigationTrayOverlay/NavigationTray/TrayVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TavernNavButton" type="Button" parent="NavigationTrayOverlay/NavigationTray/TrayVBox/NavButtons"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "🏰 Quest Board"
+
+[node name="ProfileNavButton" type="Button" parent="NavigationTrayOverlay/NavigationTray/TrayVBox/NavButtons"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "👤 Profile"
+
+[node name="SettingsNavButton" type="Button" parent="NavigationTrayOverlay/NavigationTray/TrayVBox/NavButtons"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "⚙️ Settings"
+
+[node name="TrayFooter" type="VBoxContainer" parent="NavigationTrayOverlay/NavigationTray/TrayVBox"]
+layout_mode = 2
+
+[node name="VersionInfo" type="Label" parent="NavigationTrayOverlay/NavigationTray/TrayVBox/TrayFooter"]
+layout_mode = 2
+text = "LifeQuest v0.1.0"
+horizontal_alignment = 1
+
+[node name="PlayerInfo" type="Label" parent="NavigationTrayOverlay/NavigationTray/TrayVBox/TrayFooter"]
+layout_mode = 2
+text = "Player ID: 12345"
+horizontal_alignment = 1
