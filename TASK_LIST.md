@@ -11,7 +11,8 @@
 
 ## **CRITICAL BLOCKERS (URGENT)**
 
-### **PWA/Web Caching Update Issue** (PRIORITY: CRITICAL)  
+### **PWA/Web Caching Update Issue** (PRIORITY: CRITICAL, COMPLETED - IT WAS THE FUCKING SERVICE WORKER!!)
+**Results**: Turned out the browser service worker was not updating when new content was avaiailable, it was "pending" until god knows when.  
 **Problem**: App doesn't show new versions on load, users stuck on old versions despite updates
 **Current**: Aggressive browser/PWA caching prevents updates from reaching users, previous attempts failed
 **Goal**: Reliable app update mechanism that ensures users get latest version
@@ -26,7 +27,8 @@
 
 ## **IMMEDIATE FIXES (HIGH PRIORITY)**
 
-### **Tavern UI Visual Hierarchy Overhaul** (PRIORITY: HIGH)  
+### **Tavern UI Visual Hierarchy Overhaul** (COMPLETE)  
+**Results**: Help section moved to Settings, Navigation moved to Universal Drawer format.
 **Problem**: Text/button color clashes, hard to read on mobile, cluttered layout, no visual section separation
 **Current**: Colored text on colored buttons, small touch targets, same text size for headers and content
 **Goal**: Clear visual hierarchy, readable text, better mobile touch targets, distinct sections
@@ -37,7 +39,8 @@
 - Reorganize layout to reduce clutter
 - Test readability on mobile devices
 
-### **Settings Scene Creation** (PRIORITY: HIGH)  
+### **Settings Scene Creation** (COMPLETE)  
+**Results**: Simple settings scene created, Admin section moved from Profile and Help links moved from Tavern
 **Problem**: Debug controls and settings scattered across main screens
 **Current**: Alpha controls in profile, feedback/Discord in tavern
 **Goal**: Dedicated settings scene for all configuration and debug tools
